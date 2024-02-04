@@ -1,4 +1,4 @@
-import express, { Application, NextFunction, Request, Response} from 'express'
+import express, { Application} from 'express'
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
@@ -24,7 +24,7 @@ const start = async () => {
   
   mongoose.connection.on('disconnected',() => {
       console.log("mongoDB disconnected")
-  })
+  }) 
 
   mongoose.connection.on('connected',() => { 
       console.log("mongoDB connected")
