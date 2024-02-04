@@ -1,13 +1,31 @@
-import express, { Application, Request, Response} from 'express'
+import express, { Application, NextFunction, Request, Response} from 'express'
 import cors from 'cors';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import userRouter from './routes/user'
 
+dotenv.config();
 const app: Application = express();
 app.use(cors())
 app.use(express.json())
+app.use('/api/user', userRouter);
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('server is connected')
-})
-app.listen(3000, () => {
-    console.log('server is running')
-})
+const start = async () => {
+    try {
+      mongoose.connect(process.env.MONGOOSE_URL ?? "");
+    } catch (err) {
+      console.log(err)
+    }
+  };
+  
+  mongoose.connection.on('disconnected',() => {
+      console.log("mongoDB disconnected")
+  })
+
+  mongoose.connection.on('connected',() => { 
+      console.log("mongoDB connected")
+  })
+  
+  app.listen(5000, async() =>{
+      await start()
+  })
