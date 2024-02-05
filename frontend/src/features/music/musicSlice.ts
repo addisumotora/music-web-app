@@ -64,5 +64,34 @@ export const musicSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
+    // search music
+    searchMusicAction: (state, action) => {
+      state.loading = true;
+    },
+    searchMusicSuccessAction: (state, action) => {
+      state.musics = action.payload;
+      state.loading = false;
+      state.success = true;
+    },
+    searchMusicErrorAction: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+
+    //delete music
+    deleteMusicAction: (state) => {
+      state.loading = true;
+    },
+    deleteMusicSuccessAction: (state, action) => {
+        state.musics = state.musics.filter((music) => music.id !== action.payload);
+        state.loading = false;
+        state.success = true;
+    },
+    deleteMusicErrorAction: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });

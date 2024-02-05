@@ -1,8 +1,5 @@
-import { UnknownAction, configureStore } from "@reduxjs/toolkit";
-
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types/types";
-import userEvent from "@testing-library/user-event";
 
 interface UserState {
   user: User | undefined;
