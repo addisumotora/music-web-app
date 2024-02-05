@@ -1,4 +1,11 @@
-export interface User {
+export interface IRegisterUser {
+    id?: string;
+    name: string;
+    email: string;
+    password: string;
+}
+
+export interface ILoginUser {
     id?: string;
     name?: string;
     email: string;

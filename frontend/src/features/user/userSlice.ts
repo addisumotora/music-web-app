@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { User } from "../../types/types";
+import { IRegisterUser, ILoginUser } from "../../types/types";
 
 interface UserState {
-  user: User | undefined;
+  user: ILoginUser | undefined;
   loading: boolean;
   success: boolean;
   error: string | null;
@@ -19,7 +19,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
-    createUserAction: (state) => {
+    createUserAction: (state, action) => {
       state.loading = true;
     },
     createUserSuccessAction: (state, action) => {

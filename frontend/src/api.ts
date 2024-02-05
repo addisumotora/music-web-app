@@ -1,21 +1,21 @@
 import axios from "axios";
-import { User } from "./types/types";
+import { ILoginUser, IRegisterUser } from "./types/types";
 import api from "./httpInterceptor";
 
-export const login = async (user: User) => {
+export const login = async (user: ILoginUser) => {
   try {
-    const data = await api.post("api/user/signin", user);
-    return data;
+    const response = await api.post("api/user/signin", user);
+    return response.data;  
   } catch (error) {
-    return error;
+    return Promise.reject(error);  
   }
 };
 
-export const createUser = async (user: User) => {
+export const createUser = async (user: IRegisterUser) => {
   try {
-    const data = await api.post("api/user/signup", user);
-    return data;
+    const response = await api.post("api/user/signup", user);
+    return response.data;  
   } catch (error) {
-    return error;
+    return Promise.reject(error);  
   }
 };
