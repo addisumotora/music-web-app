@@ -1,13 +1,14 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { MdVisibilityOff, MdVisibility } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IRegisterUser } from "../types/types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../schemas/user.schema";
 import { useDispatch, useSelector } from "react-redux";
 import { createUserAction, userLoginAction } from "../features/user/userSlice";
+import { ToastContainer } from "react-toastify";
 
 const Container = styled.div`
   display: flex;
@@ -61,8 +62,8 @@ const Button = styled.button`
   border-radius: 10px;
   background-color: #009688;
   border: none;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${({ disabled }) => (disabled ? '0.6' : '1')};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
 `;
 const LinkContainer = styled.div`
   display: flex;
@@ -74,8 +75,8 @@ const Paragraph = styled.div`
 `;
 
 const Error = styled.span`
-  color: #EF4444;
-`
+  color: #ef4444;
+`;
 
 const PasswodContainer = styled.div`
   display: flex;
@@ -86,8 +87,9 @@ const PasswodContainer = styled.div`
 
 const Register = () => {
   const [isVisibe, setIsvisible] = useState(false);
-  const loading = useSelector((state: any) => state.userReducer.loading)
-  const dispatch = useDispatch()
+  const { loading, success } = useSelector((state: any) => state.userReducer);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -97,8 +99,12 @@ const Register = () => {
     resolver: yupResolver(registerSchema),
   });
 
-  const onSubmit: SubmitHandler<IRegisterUser> = (data) => {
-    dispatch(createUserAction(data))
+  const onSubmit: SubmitHandler<IRegisterUser> = async (user) => {
+    try {
+      dispatch(createUserAction({user, navigate}));
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
   };
 
   return (
@@ -161,11 +167,17 @@ const Register = () => {
           {errors.password && <Error>{errors.password.message}</Error>}
           <LinkContainer>
             {" "}
-            <Paragraph>don't you have account?</Paragraph>
+            <Paragraph>do you have account?</Paragraph>{" "}
+            <Link to="/register" style={{ color: "#009688" }}>
+              Login
+            </Link>
           </LinkContainer>
-          <Button type="submit" disabled={loading}>{loading? "Signing up...": "Sign up"}</Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? "Signing up..." : "Sign up"}
+          </Button>
         </FormContainer>
       </Card>
+      <ToastContainer position="top-right" autoClose={5000} />
     </Container>
   );
 };

@@ -11,11 +11,12 @@ import {
 import { toast } from "react-toastify";
 
 function* registerUser({
-  payload: user,
-}: PayloadAction<IRegisterUser>): Generator<any, void, any> {
+  payload: { user, navigate },
+}: PayloadAction<{ user: IRegisterUser; navigate: Function }>): Generator<any, void, any> {
   try {
     const data  = yield call(createUser, user);
     yield put(createUserSuccessAction(data));
+    navigate('/login')
   } catch (error: any) {
     toast.error(`${error?.response?.data?.message || "Something went wrong! try again"}`, {
       position: "top-right",
@@ -30,12 +31,12 @@ function* registerUser({
 }
 
 function* userLogin({
-  payload: user,
-}: PayloadAction<ILoginUser>): Generator<any, void, any> {
+  payload: { user, navigate }
+}: PayloadAction<{ user: ILoginUser; navigate: Function }>): Generator<any, void, any> {
   try {
     const data  = yield call(login, user);
-    console.log(data, 'data')
     yield put(userLoginSuccessAction(data));
+    navigate('/')
   } catch (error: any) {
     toast.error(`${error?.response?.data?.message || "Something went wrong! try again"}`, {
       position: "top-right",

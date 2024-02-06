@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { MdVisibilityOff, MdVisibility } from "react-icons/md";
-import { Link } from "react-router-dom";
-import { ILoginUser } from "../types/types";
+import { Link, useNavigate } from "react-router-dom";
+import { ILoginUser, IRegisterUser } from "../types/types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../schemas/user.schema";
@@ -63,12 +63,13 @@ const Button = styled.button`
   border-radius: 10px;
   background-color: #009688;
   border: none;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${({ disabled }) => (disabled ? '0.6' : '1')};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
 `;
 const LinkContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  width: 100%;
   padding: 1rem 0;
 `;
 const Paragraph = styled.div`
@@ -76,8 +77,8 @@ const Paragraph = styled.div`
 `;
 
 const Error = styled.span`
-  color: #EF4444;
-`
+  color: #ef4444;
+`;
 
 const PasswodContainer = styled.div`
   display: flex;
@@ -88,8 +89,9 @@ const PasswodContainer = styled.div`
 
 const Login = () => {
   const [isVisibe, setIsvisible] = useState(false);
-  const {loading} = useSelector((state: any) => state.userReducer)
-  const dispatch = useDispatch()
+  const { loading, success } = useSelector((state: any) => state.userReducer);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -99,8 +101,8 @@ const Login = () => {
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit: SubmitHandler<ILoginUser> = (data) => {
-    dispatch(userLoginAction(data))
+  const onSubmit: SubmitHandler<ILoginUser> = async (user: ILoginUser) => {
+    dispatch(userLoginAction({ user, navigate}));
   };
 
   return (
@@ -155,10 +157,14 @@ const Login = () => {
           </PasswodContainer>
           {errors.password && <Error>{errors.password.message}</Error>}
           <LinkContainer>
-            {" "}
-            <Paragraph>don't you have account?</Paragraph>
+            <Paragraph>don't you have account? </Paragraph>
+            <Link to="/register" style={{ color: "#009688" }}>
+              Create account
+            </Link>
           </LinkContainer>
-          <Button type="submit" disabled={loading}>{loading? "Logining in...": "Login"}</Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? "Logining in..." : "Login"}
+          </Button>
         </FormContainer>
       </Card>
       <ToastContainer position="top-right" autoClose={5000} />
