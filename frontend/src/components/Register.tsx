@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../schemas/user.schema";
 import { useDispatch, useSelector } from "react-redux";
-import { createUserAction, userLoginAction } from "../features/user/userSlice";
+import { createUserAction } from "../features/user/userSlice";
 import { ToastContainer } from "react-toastify";
 
 const Container = styled.div`
@@ -87,13 +87,12 @@ const PasswodContainer = styled.div`
 
 const Register = () => {
   const [isVisibe, setIsvisible] = useState(false);
-  const { loading, success } = useSelector((state: any) => state.userReducer);
+  const { loading } = useSelector((state: any) => state.userReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<IRegisterUser>({
     resolver: yupResolver(registerSchema),
@@ -112,15 +111,7 @@ const Register = () => {
       <Card>
         <Header>𝒜𝒹𝒹𝒾𝓈𝒱𝒾𝒷𝑒𝓈</Header>
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
-          <FormHeader>Sign In</FormHeader>
-          <Label htmlFor="name">Name</Label>
-          <Input
-            type="name"
-            id="name"
-            placeholder="Name"
-            {...register("name")}
-          />
-          {errors.name && <Error>{errors.name.message}</Error>}
+          <FormHeader>Sign up</FormHeader>
           <Label htmlFor="email">Email Address</Label>
           <Input
             type="email"

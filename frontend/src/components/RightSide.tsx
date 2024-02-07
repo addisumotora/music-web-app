@@ -1,15 +1,20 @@
-import styled from '@emotion/styled'
-import React from 'react'
+import styled from "@emotion/styled";
+import React from "react";
 
 const Container = styled.div`
-    background-color: #14252f;
-    height: 100vh;
-    width: 60vh;
-`
-const RightSide = () => {
-  return (
-    <Container>RightSide</Container>
-  )
-}
+  background-color: #14252f;
+  height: 100vh;
+  width: 60vh;
+  overflow-y: auto;
+  padding: 0 20px;
 
-export default RightSide
+  &::-webkit-scrollbar {
+    display: hidden;
+    width: 0;
+  }
+`;
+const RightSide = () => {
+  return <Container>RightSide</Container>;
+};
+
+export default RightSide;

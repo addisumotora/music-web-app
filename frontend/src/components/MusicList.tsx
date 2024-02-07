@@ -1,69 +1,115 @@
 import styled from "@emotion/styled";
-import React from "react";
-
 const MusicContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  width: 100%;
-  padding: 2rem;
+  width: 80%;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 0 20px;
+
+  &::-webkit-scrollbar {
+    display: hidden;
+    width: 0;
+  }
 `;
-const CardContainer = styled.div`
+const CategoryContainer = styled.div`
   width: 100%;
 `;
-const Card = styled.div``;
+
+const Card = styled.div`
+  background-color: #14252f;
+  border-radius: 0.5rem;
+  padding: 15px;
+  max-width: 20vh;
+`;
+
 const Header = styled.div``;
 const CardHeader = styled.div`
   width: 100%;
 `;
-const Line = styled.div`
-  height: 1px;
+const Image = styled.img`
   width: 100%;
-  background-color: #5d5d5e;
+  object-fit: cover;
+  border-radius: 0.5rem;
+`;
+const CardContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin: 20px 0;
 `;
 
 const MusicList = () => {
   return (
     <MusicContainer>
       <Header></Header>
-      <CardContainer>
+      <CategoryContainer>
         <CardHeader>
-          <h1>Discover</h1>
-          <p>Explore sonic realms with our Discover feature.</p>
-          <Line></Line>
-        </CardHeader>
-        <div>
-          <Card>
-            <img src="./images/logo3.png"/>
-          </Card>
-        </div>
-      </CardContainer>
-      <CardContainer>
-        <CardHeader>
-          <h1>New Releases</h1>
+          <h2>Discover</h2>
           <p>Explore sonic realms with our Discover feature.</p>
         </CardHeader>
-        <div>
+        <CardContainer>
           <Card>
-            <img src="./images/logo3.png"/>
-            <h1>title</h1>
+            <Image src="./images/logo3.png" />
+            <p>title</p>
             <p>genre</p>
           </Card>
-        </div>
-        <Line></Line>
-      </CardContainer>
-      <CardContainer>
-        <CardHeader>
-          <h1>Editor's Picks</h1>
-          <p>Explore sonic realms with our Discover feature.</p>
-          <Line></Line>
-        </CardHeader>
-        <div>
           <Card>
-            <img src="./images/logo3.png"/>
+            <Image src="./images/logo3.png" />
+            <p>title</p>
+            <p>genre</p>
           </Card>
-        </div>
-      </CardContainer>
+          <Card>
+            <Image src="./images/logo3.png" />
+            <p>title</p>
+            <p>genre</p>
+          </Card>
+          <Card>
+            <Image src="./images/logo3.png" />
+            <p>title</p>
+            <p>genre</p>
+          </Card>
+          <Card>
+            <Image src="./images/logo3.png" />
+            <p>title</p>
+            <p>genre</p>
+          </Card>
+        </CardContainer>
+      </CategoryContainer>
+      <CategoryContainer>
+        <CardHeader>
+          <h2>New Releases</h2>
+          <p>Explore sonic realms with our Discover feature.</p>
+        </CardHeader>
+        <CardContainer>
+          <Card>
+            <Image src="./images/logo3.png" />
+            <p>title</p>
+            <p>genre</p>
+          </Card>
+          <Card>
+            <Image src="./images/logo3.png" />
+            <p>title</p>
+            <p>genre</p>
+          </Card>
+          <Card>
+            <Image src="./images/logo3.png" />
+            <p>title</p>
+            <p>genre</p>
+          </Card>
+          <Card>
+            <Image src="./images/logo3.png" />
+            <p>title</p>
+            <p>genre</p>
+          </Card>
+          <Card>
+            <Image src="./images/logo3.png" />
+            <p>title</p>
+            <p>genre</p>
+          </Card>
+        </CardContainer>
+      </CategoryContainer>
     </MusicContainer>
   );
 };
