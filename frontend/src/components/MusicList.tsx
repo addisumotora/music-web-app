@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { HiMenuAlt2 } from "react-icons/hi";
+
 const MusicContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -21,17 +23,23 @@ const Card = styled.div`
   background-color: #14252f;
   border-radius: 0.5rem;
   padding: 15px;
-  max-width: 20vh;
+  max-width: 27vh;
 `;
 
-const Header = styled.div``;
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  width: 100%;
+`;
 const CardHeader = styled.div`
   width: 100%;
 `;
 const Image = styled.img`
   width: 100%;
   object-fit: cover;
-  border-radius: 0.5rem;
+  border-radius: 0.2rem;
 `;
 const CardContainer = styled.div`
   display: flex;
@@ -39,11 +47,57 @@ const CardContainer = styled.div`
   gap: 2rem;
   margin: 20px 0;
 `;
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+const Button = styled.div`
+  padding: 10px;
+  background-color: #009688;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+const Input = styled.input`
+  width: 50%;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #5555;
+  border: none;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  &::placeholder {
+    color: #a29e9e;
+  }
+`;
+const ActionButtonContainer = styled.div`
+  display: flex;
+  gap: 5px;
+  justify-items: end;
+  justify-content: flex-end;
+  button {
+    background: none;
+    color: white;
+    border: none;
+    color: red;
+    cursor: pointer;
+  }
+`;
+const TitleContainer = styled.div`
+  display: flex;
+ gap: 1rem;
+`
 
 const MusicList = () => {
   return (
     <MusicContainer>
-      <Header></Header>
+      <Header>
+        <HiMenuAlt2 size={30} cursor="pointer" />
+        <Input placeholder="Search songs, albums" />
+        <ButtonContainer>
+          <Button style={{ background: "none" }}>Sign up</Button>
+          <Button>Sign In</Button>
+        </ButtonContainer>
+      </Header>
       <CategoryContainer>
         <CardHeader>
           <h2>Discover</h2>
@@ -52,8 +106,20 @@ const MusicList = () => {
         <CardContainer>
           <Card>
             <Image src="./images/logo3.png" />
-            <p>title</p>
-            <p>genre</p>
+            <TitleContainer>
+              <div>
+                <p>Artist</p>
+                <p>Album</p>
+              </div>
+              <div>
+                <p>title</p>
+                <p>genre</p>
+              </div>
+            </TitleContainer>
+            <ActionButtonContainer>
+              <button>Edit</button>
+              <button>Delete</button>
+            </ActionButtonContainer>
           </Card>
           <Card>
             <Image src="./images/logo3.png" />

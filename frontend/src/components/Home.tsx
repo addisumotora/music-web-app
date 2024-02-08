@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import SideNav from "./SideNav";
 import RightSide from "./RightSide";
 import styled from "@emotion/styled";
+import FormModal from "./Modal";
 
 const HomeContainer = styled.div`
     display: flex;
@@ -16,6 +17,7 @@ const Home = () => {
       <SideNav />
       <Outlet />
       <RightSide />
+      <FormModal/>
     </HomeContainer>
   );
 };

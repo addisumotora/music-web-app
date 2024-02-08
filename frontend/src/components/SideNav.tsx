@@ -110,7 +110,7 @@ const SideNav = () => {
       <div>
         <ActionsHeader>ACTIONS</ActionsHeader>
         <AuctionItem>
-          <Link
+          {/* <Link
             to="/"
             style={{
               display: "flex",
@@ -118,10 +118,10 @@ const SideNav = () => {
               gap: ".70rem",
               color: "inherit",
             }}
-          >
+          > */}
             <MdAddCircle />
             Create Music
-          </Link>
+          {/* </Link> */}
         </AuctionItem>
       </div>
       <div>
