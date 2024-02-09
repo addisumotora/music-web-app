@@ -6,10 +6,12 @@ import { PersistConfig, persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { musicSlice } from "./music/musicSlice";
 import logger from 'redux-logger'
+import modalSlice from "./modal/modalSlice";
 
 const rootReducer = combineReducers({
   userReducer: userSlice.reducer,
-  musicReducer: musicSlice.reducer
+  musicReducer: musicSlice.reducer,
+  modalReducer: modalSlice.reducer
 });
 type RootState = ReturnType<typeof rootReducer>;
 

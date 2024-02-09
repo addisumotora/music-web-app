@@ -18,7 +18,7 @@ const TopPicks = styled.div`
   display: flex;
   justify-content: start;
   gap: 1rem;
-  margin: 2rem;
+  margin: 2rem 1rem;
   border-bottom: 2px solid #1c2c35;
   padding-bottom: 20px;
   div p{

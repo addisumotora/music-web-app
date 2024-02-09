@@ -6,32 +6,22 @@ import Input from "@mui/joy/Input";
 import Modal from "@mui/joy/Modal";
 import ModalDialog from "@mui/joy/ModalDialog";
 import DialogTitle from "@mui/joy/DialogTitle";
-import DialogContent from "@mui/joy/DialogContent";
 import Stack from "@mui/joy/Stack";
-import Add from "@mui/icons-material/Add";
-import { styled } from "@mui/material/styles";
 import { Button as MUButton } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { useDispatch, useSelector } from "react-redux";
+import {closeModal } from "../features/modal/modalSlice";
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
 
 export default function FormModal() {
-  const [open, setOpen] = React.useState<boolean>(true);
+  const { isOpen } = useSelector((state: any) => state.modalReducer);
+  const dispatch = useDispatch()
+  console.log(isOpen, 'open');
   return (
     <React.Fragment>
       <Modal
-        open={open}
-        onClose={() => setOpen(false)}
+        open={isOpen}
+        onClose={() => dispatch(closeModal())}
         sx={{
           background: "none",
           backdropFilter: "none" 
@@ -42,7 +32,7 @@ export default function FormModal() {
           <form
             onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
               event.preventDefault();
-              setOpen(false);
+              dispatch(closeModal());
             }}
           >
             <MUButton

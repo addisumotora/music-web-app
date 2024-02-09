@@ -7,6 +7,8 @@ import { MdSupervisorAccount } from "react-icons/md";
 
 import { MdAddCircle } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useDispatch} from "react-redux";
+import { openModal } from "../features/modal/modalSlice";
 
 const Container = styled.div`
   display: flex;
@@ -60,6 +62,8 @@ const AuctionItem = styled.button`
 `;
 
 const SideNav = () => {
+  const dispatch = useDispatch();
+
   return (
     <Container>
       <Header>𝒜𝒹𝒹𝒾𝓈𝒱𝒾𝒷𝑒𝓈</Header>
@@ -109,7 +113,7 @@ const SideNav = () => {
       </div>
       <div>
         <ActionsHeader>ACTIONS</ActionsHeader>
-        <AuctionItem>
+        <AuctionItem onClick={() => dispatch(openModal())}>
           <MdAddCircle />
           Create Music
         </AuctionItem>
