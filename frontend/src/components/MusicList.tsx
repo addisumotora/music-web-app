@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import { HiMenuAlt2 } from "react-icons/hi";
+import { IoPlayCircleOutline } from "react-icons/io5";
 
 const MusicContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  width: 80%;
   height: 100vh;
   overflow-y: auto;
   padding: 0 20px;
@@ -37,10 +37,12 @@ const CardHeader = styled.div`
   width: 100%;
 `;
 const Image = styled.img`
+  position: relative;
   width: 100%;
   object-fit: cover;
   border-radius: 0.2rem;
 `;
+
 const CardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -82,11 +84,34 @@ const ActionButtonContainer = styled.div`
     cursor: pointer;
   }
 `;
+
+const ImageContainer = styled.div`
+  position: relative;
+  div {
+    position: absolute;
+    display: hidden;
+    bottom: 0;
+    z-index: -1;
+  }
+
+  &:hover {
+    div {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      background-color: black; opacity: 0.8;
+      z-index: 999;
+      transition: bottom 0.3s ease;
+    }
+  }
+`;
 const TitleContainer = styled.div`
   display: flex;
- gap: 1rem;
-`
-
+  gap: 1rem;
+`;
 const MusicList = () => {
   return (
     <MusicContainer>
@@ -105,7 +130,10 @@ const MusicList = () => {
         </CardHeader>
         <CardContainer>
           <Card>
-            <Image src="./images/logo3.png" />
+            <ImageContainer>
+              <Image className="image" src="./images/logo3.png" />
+              <div>  <IoPlayCircleOutline size={30} color="white" /></div>
+            </ImageContainer>
             <TitleContainer>
               <div>
                 <p>Artist</p>

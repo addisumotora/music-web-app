@@ -4,6 +4,19 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.image {
+  position: relative;
+}
+
+.image:hover {
+  filter: brightness(70%); 
+}
+
+.image:hover + .overlay {
+  opacity: 1; 
+}
+
+
 /* code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
