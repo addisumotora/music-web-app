@@ -52,7 +52,7 @@ const AuctionItem = styled.button`
   border-radius: 2px;
   color: white;
   font-size: 1rem;
-
+  cursor: pointer;
   &:hover {
     background-color: #14252f;
     color: #009688;
@@ -65,94 +65,84 @@ const SideNav = () => {
       <Header>𝒜𝒹𝒹𝒾𝓈𝒱𝒾𝒷𝑒𝓈</Header>
       <div>
         <ActionsHeader>MENU</ActionsHeader>
-        <AuctionItem>
-          <Link
-            to="/music-list"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: ".70rem",
-              color: "inherit",
-            }}
-          >
+        <Link
+          to="/music-list"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: ".70rem",
+            color: "inherit",
+          }}
+        >
+          <AuctionItem>
             <IoPlayCircleOutline /> Discover
-          </Link>
-        </AuctionItem>
-        <AuctionItem>
-          <Link
-            to="/"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: ".70rem",
-              color: "inherit",
-            }}
-          >
+          </AuctionItem>
+        </Link>
+        <Link
+          to="/"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: ".70rem",
+            color: "inherit",
+          }}
+        >
+          <AuctionItem>
             <BsBrowserChrome />
             Browse
-          </Link>
-        </AuctionItem>
-        <AuctionItem>
-          <Link
-            to="/"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: ".70rem",
-              color: "inherit",
-            }}
-          >
+          </AuctionItem>
+        </Link>
+        <Link
+          to="/"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: ".70rem",
+            color: "inherit",
+          }}
+        >
+          <AuctionItem>
             <MdOutlineManageSearch />
             Search{" "}
-          </Link>
-        </AuctionItem>
+          </AuctionItem>
+        </Link>
       </div>
       <div>
         <ActionsHeader>ACTIONS</ActionsHeader>
         <AuctionItem>
-          {/* <Link
-            to="/"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: ".70rem",
-              color: "inherit",
-            }}
-          > */}
-            <MdAddCircle />
-            Create Music
-          {/* </Link> */}
+          <MdAddCircle />
+          Create Music
         </AuctionItem>
       </div>
       <div>
         <ActionsHeader>ACCOUNT</ActionsHeader>
-        <AuctionItem>
-          <Link
-            to="/register"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: ".70rem",
-              color: "inherit",
-            }}
-          >
+        <Link
+          to="/register"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: ".70rem",
+            color: "inherit",
+          }}
+        >
+          <AuctionItem>
             {" "}
             <MdSupervisorAccount /> Sign Up{" "}
-          </Link>
-        </AuctionItem>
-        <AuctionItem>
-          <Link
-            to="/login"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: ".70rem",
-              color: "inherit",
-            }}
-          >
+          </AuctionItem>
+        </Link>
+        <Link
+          to="/login"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: ".70rem",
+            color: "inherit",
+          }}
+        >
+          <AuctionItem>
             <CiLogin /> Sign In
-          </Link>
-        </AuctionItem>
+          </AuctionItem>
+        </Link>
       </div>
     </Container>
   );
