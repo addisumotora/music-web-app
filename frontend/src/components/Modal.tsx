@@ -1,13 +1,9 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
-import { MdVisibilityOff, MdVisibility } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
-import { ILoginUser, Music } from "../types/types";
+import { useNavigate } from "react-router-dom";
+import { Music } from "../types/types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "../schemas/user.schema";
 import { useDispatch, useSelector } from "react-redux";
-import { userLoginAction } from "../features/user/userSlice";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { musicSchema } from "../schemas/music.schema";
@@ -15,8 +11,7 @@ import { RootState } from "../features/store";
 import { closeModal } from "../features/modal/modalSlice";
 import { IoCloseOutline } from "react-icons/io5";
 import {
-  createMusicAction,
-  createMusicSuccessAction,
+  createMusicAction
 } from "../features/music/musicSlice";
 
 const Container = styled.div`
@@ -100,7 +95,6 @@ const FormModal = () => {
       fileReader.onload = () => {
         resolve(fileReader.result as string);
       };
-
       fileReader.onerror = (error) => {
         reject(error);
       };
@@ -108,29 +102,24 @@ const FormModal = () => {
   };
 
   const onSubmit: SubmitHandler<Music> = async (music: Music) => {
-    let imageBase64;
-    if (music.image instanceof FileList) {
-      const file = music.image[0];
-      try {
-        imageBase64 = await convertBase64(file);
-      } catch (error) {
-        console.error(error);
-        return;
-      }
-    } else {
+    if (!music.image || !(music.image instanceof FileList)) {
       console.error("No image selected");
       return;
     }
-
-    const imusic: Music = {
-      ...music,
-      image: imageBase64 as unknown as File,
-    };
-
-    console.log(music, 'music')
-    dispatch(createMusicAction(imusic));
-    reset();
+    const file = music.image[0];
+    try {
+      const imageBase64 = await convertBase64(file);
+      const updatedMusic: Music = {
+        ...music,
+        image: imageBase64 as unknown as File,
+      };
+      dispatch(createMusicAction(updatedMusic));
+      reset();
+    } catch (error) {
+      console.error(error);
+    }
   };
+  
 
   return (
     <>

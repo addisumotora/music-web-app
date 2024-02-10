@@ -1,9 +1,12 @@
 import styled from "@emotion/styled";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoPlayCircleOutline } from "react-icons/io5";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import CardSkeleton from "./CardSkeleton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { GetMusicType, Music } from "../types/types";
+import { useEffect } from "react";
+import { getMusicAction } from "../features/music/musicSlice";
 
 const MusicContainer = styled.div`
   display: flex;
@@ -41,7 +44,8 @@ const CardHeader = styled.div`
 `;
 const Image = styled.img`
   position: relative;
-  width: 100%;
+  width: 11rem;
+  height: 8rem;
   object-fit: cover;
   border-radius: 0.2rem;
 `;
@@ -105,7 +109,8 @@ const ImageContainer = styled.div`
       justify-content: center;
       width: 100%;
       height: 100%;
-      background-color: black; opacity: 0.8;
+      background-color: black;
+      opacity: 0.8;
       z-index: 999;
       transition: bottom 0.3s ease;
     }
@@ -116,8 +121,13 @@ const TitleContainer = styled.div`
   gap: 1rem;
 `;
 
+
 const MusicList = () => {
-  const {loading} = useSelector((state: any) => state.musicReducer)
+  const { loading, musics } = useSelector((state: any) => state.musicReducer);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getMusicAction())
+  },[])
   return (
     <MusicContainer>
       <Header>
@@ -133,46 +143,53 @@ const MusicList = () => {
           <h2>Discover</h2>
           <p>Explore sonic realms with our Discover feature.</p>
         </CardHeader>
-        {loading ? <CardSkeleton/>: <CardContainer>
-          <NavLink to='./8989' style={{color: "inherit"}}> 
-          <Card>
-            <ImageContainer>
-              <Image className="image" src="./images/logo3.png" />
-              <div>  <IoPlayCircleOutline size={30} color="white" /></div>
-            </ImageContainer>
-            <TitleContainer>
-              <div>
-                <p style={{display: 'flex', alignItems:'center', gap:'10px'}}><span style={{ color: "#009688"}}>Artist :</span>  <span>addis vibes</span></p>
-                <p style={{display: 'flex', alignItems:'center', gap:'10px'}}><span style={{color: "#009688"}}>Album :</span>  <span>addis vibes</span></p>
-              </div>
-            </TitleContainer>
-            <ActionButtonContainer>
-              <button>Edit</button>
-              <button>Delete</button>
-            </ActionButtonContainer>
-          </Card>
-          </NavLink>
-          <Card>
-            <Image src="./images/logo3.png" />
-            <p>title</p>
-            <p>genre</p>
-          </Card>
-          <Card>
-            <Image src="./images/logo3.png" />
-            <p>title</p>
-            <p>genre</p>
-          </Card>
-          <Card>
-            <Image src="./images/logo3.png" />
-            <p>title</p>
-            <p>genre</p>
-          </Card>
-          <Card>
-            <Image src="./images/logo3.png" />
-            <p>title</p>
-            <p>genre</p>
-          </Card>
-        </CardContainer>}
+        {loading ? (
+          <CardSkeleton />
+        ) : (
+          <CardContainer>
+            {musics.map((music: any) => (
+              <NavLink to="./8989" style={{ color: "inherit" }}>
+                <Card>
+                  <ImageContainer>
+                    <Image className="image" src={music.music.image} />
+                    <div>
+                      {" "}
+                      <IoPlayCircleOutline size={30} color="white" />
+                    </div>
+                  </ImageContainer>
+                  <TitleContainer>
+                    <div>
+                      <p
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <span style={{ color: "#009688" }}>Artist :</span>{" "}
+                        <span>{music.music.artist}</span>
+                      </p>
+                      <p
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <span style={{ color: "#009688" }}>Album :</span>{" "}
+                        <span>{music.music.album}</span>
+                      </p>
+                    </div>
+                  </TitleContainer>
+                  <ActionButtonContainer>
+                    <button>Edit</button>
+                    <button>Delete</button>
+                  </ActionButtonContainer>
+                </Card>
+              </NavLink>
+            ))}
+          </CardContainer>
+        )}
       </CategoryContainer>
       <CategoryContainer>
         <CardHeader>

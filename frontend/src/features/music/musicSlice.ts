@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Music } from "../../types/types";
+import { GetMusicType, Music } from "../../types/types";
 
 interface MusicState {
-  musics: Music[];
+  musics: GetMusicType[];
   music: Music | undefined;
   loading: boolean;
   success: boolean;
@@ -104,4 +104,4 @@ export const musicSlice = createSlice({
   },
 });
 
-export const {createMusicAction, createMusicSuccessAction, createMusicErrorAction} = musicSlice.actions;
+export const {createMusicAction, createMusicSuccessAction, createMusicErrorAction, getMusicAction, getMusicSuccessAction,getMusicErrorAction} = musicSlice.actions;

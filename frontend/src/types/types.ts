@@ -1,3 +1,5 @@
+import { Interface } from "readline";
+
 export interface IRegisterUser {
   id?: string;
   name: string;
@@ -18,5 +20,14 @@ export interface Music {
   album: string;
   genre: string;
   image: File;
+  artist: string;
+}
+
+export interface GetMusicType {
+  id?: string;
+  title: string;
+  album: string;
+  genre: string;
+  image: string;
   artist: string;
 }
