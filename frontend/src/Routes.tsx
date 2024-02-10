@@ -3,6 +3,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
 import MusicList from "./components/MusicList";
+import MusicDetail from "./components/MusicDetail";
 
 const routes = createBrowserRouter([
   {
@@ -12,11 +13,10 @@ const routes = createBrowserRouter([
       {
         path: "/music-list",
         element: <MusicList/>,
-        children: []
       },
       {
-        path: "/products",
-        element: <Register/> ,
+        path: "/music-list/:id",
+        element: <MusicDetail/>,
       }
     ],
   },

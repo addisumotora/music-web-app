@@ -6,7 +6,7 @@ import { CiLogin } from "react-icons/ci";
 import { MdSupervisorAccount } from "react-icons/md";
 
 import { MdAddCircle } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useDispatch} from "react-redux";
 import { openModal } from "../features/modal/modalSlice";
 
@@ -69,7 +69,7 @@ const SideNav = () => {
       <Header>𝒜𝒹𝒹𝒾𝓈𝒱𝒾𝒷𝑒𝓈</Header>
       <div>
         <ActionsHeader>MENU</ActionsHeader>
-        <Link
+        <NavLink
           to="/music-list"
           style={{
             display: "flex",
@@ -81,8 +81,8 @@ const SideNav = () => {
           <AuctionItem>
             <IoPlayCircleOutline /> Discover
           </AuctionItem>
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/"
           style={{
             display: "flex",
@@ -95,8 +95,8 @@ const SideNav = () => {
             <BsBrowserChrome />
             Browse
           </AuctionItem>
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/"
           style={{
             display: "flex",
@@ -109,7 +109,7 @@ const SideNav = () => {
             <MdOutlineManageSearch />
             Search{" "}
           </AuctionItem>
-        </Link>
+        </NavLink>
       </div>
       <div>
         <ActionsHeader>ACTIONS</ActionsHeader>
@@ -120,7 +120,7 @@ const SideNav = () => {
       </div>
       <div>
         <ActionsHeader>ACCOUNT</ActionsHeader>
-        <Link
+        <NavLink
           to="/register"
           style={{
             display: "flex",
@@ -133,8 +133,8 @@ const SideNav = () => {
             {" "}
             <MdSupervisorAccount /> Sign Up{" "}
           </AuctionItem>
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/login"
           style={{
             display: "flex",
@@ -146,7 +146,7 @@ const SideNav = () => {
           <AuctionItem>
             <CiLogin /> Sign In
           </AuctionItem>
-        </Link>
+        </NavLink>
       </div>
     </Container>
   );

@@ -1,7 +1,6 @@
 import * as React from "react";
 import Button from "@mui/joy/Button";
 import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Modal from "@mui/joy/Modal";
 import ModalDialog from "@mui/joy/ModalDialog";
@@ -16,18 +15,14 @@ import {closeModal } from "../features/modal/modalSlice";
 export default function FormModal() {
   const { isOpen } = useSelector((state: any) => state.modalReducer);
   const dispatch = useDispatch()
-  console.log(isOpen, 'open');
+
   return (
     <React.Fragment>
       <Modal
         open={isOpen}
         onClose={() => dispatch(closeModal())}
-        sx={{
-          background: "none",
-          backdropFilter: "none" 
-        }}
       >
-        <ModalDialog>
+        <ModalDialog sx={{backgroundColor: '#14252f', border:'none', color:'white'}}>
           <DialogTitle>Create new Music</DialogTitle>
           <form
             onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
@@ -39,41 +34,32 @@ export default function FormModal() {
               component="label"
               variant="contained"
               startIcon={<CloudUploadIcon />}
-              sx={{
-                width: "100%",
-                margin: "1rem 0",
-                padding: "10px",
-                boxShadow: 'none'
-              }}
+              sx={{ width: "100%", margin: "1.2rem 0 ", padding:'0', boxShadow: 'none', backgroundColor:"#009688"}}
             >
-              <input type="file" />
+              <input style={{padding: '.75rem'}} type="file" />
             </MUButton>
-            <Stack spacing={2}>
+            <Stack spacing={5} sx={{color:'white'}}>
               <Stack
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+                sx={{ display: "flex", color:'white', flexDirection: "row", gap: "1rem" }}
               >
                 <FormControl>
-                  <FormLabel>Title</FormLabel>
-                  <Input autoFocus required />
+                  <Input placeholder="Title" sx={{ padding: "1rem", bgcolor: "#14252f", color: "#a3a3a3", border: "1px solid #293e49", borderRadius: "10px" }} autoFocus required />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>Artist</FormLabel>
-                  <Input autoFocus required />
+                  <Input placeholder="Artist" sx={{ padding: "1rem", bgcolor: "#14252f", color: "#a3a3a3", border: "1px solid #293e49", borderRadius: "10px" }} autoFocus required />
                 </FormControl>
               </Stack>
               <Stack
                 sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
               >
                 <FormControl>
-                  <FormLabel>Genre</FormLabel>
-                  <Input required />
+                  <Input placeholder="Genre" sx={{ padding: "1rem", bgcolor: "#14252f", color: "#a3a3a3", border: "1px solid #293e49", borderRadius: "10px" }} autoFocus required />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>Album</FormLabel>
-                  <Input required />
+                  <Input placeholder="Album" sx={{ padding: "1rem", bgcolor: "#14252f", color: "#a3a3a3", border: "1px solid #293e49", borderRadius: "10px" }} autoFocus required />
                 </FormControl>
               </Stack>
-              <Button type="submit">Submit</Button>
+              <Button sx={{padding: '.75rem', bgcolor:"#009688"}} type="submit">Submit</Button>
             </Stack>
           </form>
         </ModalDialog>

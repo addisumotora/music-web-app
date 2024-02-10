@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IRegisterUser, ILoginUser } from "../../types/types";
+import { ILoginUser } from "../../types/types";
 
 interface UserState {
   user: ILoginUser | undefined;

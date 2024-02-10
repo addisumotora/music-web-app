@@ -1,6 +1,9 @@
 import styled from "@emotion/styled";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoPlayCircleOutline } from "react-icons/io5";
+import { NavLink} from "react-router-dom";
+import CardSkeleton from "./CardSkeleton";
+import { useSelector } from "react-redux";
 
 const MusicContainer = styled.div`
   display: flex;
@@ -112,7 +115,9 @@ const TitleContainer = styled.div`
   display: flex;
   gap: 1rem;
 `;
+
 const MusicList = () => {
+  const {loading} = useSelector((state: any) => state.musicReducer)
   return (
     <MusicContainer>
       <Header>
@@ -128,7 +133,8 @@ const MusicList = () => {
           <h2>Discover</h2>
           <p>Explore sonic realms with our Discover feature.</p>
         </CardHeader>
-        <CardContainer>
+        {loading ? <CardSkeleton/>: <CardContainer>
+          <NavLink to='./8989' style={{color: "inherit"}}> 
           <Card>
             <ImageContainer>
               <Image className="image" src="./images/logo3.png" />
@@ -136,12 +142,8 @@ const MusicList = () => {
             </ImageContainer>
             <TitleContainer>
               <div>
-                <p>Artist</p>
-                <p>Album</p>
-              </div>
-              <div>
-                <p>title</p>
-                <p>genre</p>
+                <p style={{display: 'flex', alignItems:'center', gap:'10px'}}><span style={{ color: "#009688"}}>Artist :</span>  <span>addis vibes</span></p>
+                <p style={{display: 'flex', alignItems:'center', gap:'10px'}}><span style={{color: "#009688"}}>Album :</span>  <span>addis vibes</span></p>
               </div>
             </TitleContainer>
             <ActionButtonContainer>
@@ -149,6 +151,7 @@ const MusicList = () => {
               <button>Delete</button>
             </ActionButtonContainer>
           </Card>
+          </NavLink>
           <Card>
             <Image src="./images/logo3.png" />
             <p>title</p>
@@ -169,7 +172,7 @@ const MusicList = () => {
             <p>title</p>
             <p>genre</p>
           </Card>
-        </CardContainer>
+        </CardContainer>}
       </CategoryContainer>
       <CategoryContainer>
         <CardHeader>

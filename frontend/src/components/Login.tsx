@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { MdVisibilityOff, MdVisibility } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { ILoginUser, IRegisterUser } from "../types/types";
+import { ILoginUser} from "../types/types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../schemas/user.schema";
