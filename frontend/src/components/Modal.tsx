@@ -1,69 +1,239 @@
-import * as React from "react";
-import Button from "@mui/joy/Button";
-import FormControl from "@mui/joy/FormControl";
-import Input from "@mui/joy/Input";
-import Modal from "@mui/joy/Modal";
-import ModalDialog from "@mui/joy/ModalDialog";
-import DialogTitle from "@mui/joy/DialogTitle";
-import Stack from "@mui/joy/Stack";
-import { Button as MUButton } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
+import { MdVisibilityOff, MdVisibility } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
+import { ILoginUser, Music } from "../types/types";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginSchema } from "../schemas/user.schema";
 import { useDispatch, useSelector } from "react-redux";
-import {closeModal } from "../features/modal/modalSlice";
+import { userLoginAction } from "../features/user/userSlice";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { musicSchema } from "../schemas/music.schema";
+import { RootState } from "../features/store";
+import { closeModal } from "../features/modal/modalSlice";
+import { IoCloseOutline } from "react-icons/io5";
+import {
+  createMusicAction,
+  createMusicSuccessAction,
+} from "../features/music/musicSlice";
 
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: absolute;
+  width: 100%;
+  margin: auto;
+  background-color: #000102;
+  z-index: 90;
+`;
 
-export default function FormModal() {
-  const { isOpen } = useSelector((state: any) => state.modalReducer);
-  const dispatch = useDispatch()
+const Card = styled.div`
+  background-color: #14252f;
+  border-radius: 6px;
+  padding: 2rem;
+`;
+
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  min-width: 25vw;
+  gap: 1rem;
+`;
+const FormHeader = styled.h1`
+  color: white;
+  font-size: 20px;
+`;
+const Input = styled.input`
+  padding: 15px;
+  border: 1px solid #3f5461;
+  border-radius: 5px;
+  background-color: #14252f;
+  font-size: 16px;
+  color: #a3a3a3;
+  &:focus {
+    border-color: #009688;
+    outline: none;
+  }
+`;
+const Label = styled.label`
+  color: #a3a3a3;
+  font-weight: 600;
+  font-size: 1rem;
+`;
+const Button = styled.button`
+  padding: 15px;
+  color: white;
+  border-radius: 10px;
+  background-color: #009688;
+  border: none;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
+`;
+
+const Error = styled.span`
+  color: #ef4444;
+`;
+
+const FormModal = () => {
+  const { loading } = useSelector((state: RootState) => state.musicReducer);
+  const { isOpen } = useSelector((state: RootState) => state.modalReducer);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Music>({
+    resolver: yupResolver(musicSchema),
+  });
+
+  const convertBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result as string);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  const onSubmit: SubmitHandler<Music> = async (music: Music) => {
+    let imageBase64;
+    if (music.image instanceof FileList) {
+      const file = music.image[0];
+      try {
+        imageBase64 = await convertBase64(file);
+      } catch (error) {
+        console.error(error);
+        return;
+      }
+    } else {
+      console.error("No image selected");
+      return;
+    }
+
+    const imusic: Music = {
+      ...music,
+      image: imageBase64 as unknown as File,
+    };
+
+    console.log(music, 'music')
+    dispatch(createMusicAction(imusic));
+    reset();
+  };
 
   return (
-    <React.Fragment>
-      <Modal
-        open={isOpen}
-        onClose={() => dispatch(closeModal())}
-      >
-        <ModalDialog sx={{backgroundColor: '#14252f', border:'none', color:'white'}}>
-          <DialogTitle>Create new Music</DialogTitle>
-          <form
-            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-              event.preventDefault();
-              dispatch(closeModal());
-            }}
-          >
-            <MUButton
-              component="label"
-              variant="contained"
-              startIcon={<CloudUploadIcon />}
-              sx={{ width: "100%", margin: "1.2rem 0 ", padding:'0', boxShadow: 'none', backgroundColor:"#009688"}}
-            >
-              <input style={{padding: '.75rem'}} type="file" />
-            </MUButton>
-            <Stack spacing={5} sx={{color:'white'}}>
-              <Stack
-                sx={{ display: "flex", color:'white', flexDirection: "row", gap: "1rem" }}
+    <>
+      {isOpen && (
+        <Container>
+          <Card>
+            <FormContainer onSubmit={handleSubmit(onSubmit)}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
-                <FormControl>
-                  <Input placeholder="Title" sx={{ padding: "1rem", bgcolor: "#14252f", color: "#a3a3a3", border: "1px solid #293e49", borderRadius: "10px" }} autoFocus required />
-                </FormControl>
-                <FormControl>
-                  <Input placeholder="Artist" sx={{ padding: "1rem", bgcolor: "#14252f", color: "#a3a3a3", border: "1px solid #293e49", borderRadius: "10px" }} autoFocus required />
-                </FormControl>
-              </Stack>
-              <Stack
-                sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}
-              >
-                <FormControl>
-                  <Input placeholder="Genre" sx={{ padding: "1rem", bgcolor: "#14252f", color: "#a3a3a3", border: "1px solid #293e49", borderRadius: "10px" }} autoFocus required />
-                </FormControl>
-                <FormControl>
-                  <Input placeholder="Album" sx={{ padding: "1rem", bgcolor: "#14252f", color: "#a3a3a3", border: "1px solid #293e49", borderRadius: "10px" }} autoFocus required />
-                </FormControl>
-              </Stack>
-              <Button sx={{padding: '.75rem', bgcolor:"#009688"}} type="submit">Submit</Button>
-            </Stack>
-          </form>
-        </ModalDialog>
-      </Modal>
-    </React.Fragment>
+                <FormHeader>Create Music</FormHeader>
+                <div onClick={() => dispatch(closeModal())}>
+                  {" "}
+                  <IoCloseOutline size={30} cursor={"pointer"} />
+                </div>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <Input type="file" {...register("image")} multiple />
+                {errors.image && <Error>{errors.image.message}</Error>}
+                <div style={{ display: "flex", gap: "1rem", margin: "1rem 0" }}>
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1rem",
+                        margin: "1rem 0",
+                      }}
+                    >
+                      <Input
+                        type="text"
+                        id="title"
+                        placeholder="Title"
+                        {...register("title")}
+                      />
+                      {errors.title && <Error>{errors.title.message}</Error>}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1rem",
+                        margin: "1rem 0",
+                      }}
+                    >
+                      <Input
+                        type="text"
+                        id="genre"
+                        placeholder="genre"
+                        {...register("genre")}
+                      />
+                      {errors.genre && <Error>{errors.genre.message}</Error>}
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1rem",
+                        margin: "1rem 0",
+                      }}
+                    >
+                      <Input
+                        type="text"
+                        id="album"
+                        placeholder="album"
+                        {...register("album")}
+                      />
+                      {errors.genre && <Error>{errors.genre.message}</Error>}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1rem",
+                        margin: "1rem 0",
+                      }}
+                    >
+                      <Input
+                        type="text"
+                        id="artist"
+                        placeholder="artist"
+                        {...register("artist")}
+                      />
+                      {errors.genre && <Error>{errors.genre.message}</Error>}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Button type="submit" disabled={loading}>
+                {loading ? "creating ..." : "Create Music"}
+              </Button>
+            </FormContainer>
+          </Card>
+          <ToastContainer position="top-right" autoClose={5000} />
+        </Container>
+      )}
+    </>
   );
-}
+};
+export default FormModal;

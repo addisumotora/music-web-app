@@ -3,6 +3,7 @@ import { Music } from "../../types/types";
 
 interface MusicState {
   musics: Music[];
+  music: Music | undefined;
   loading: boolean;
   success: boolean;
   error: string | null;
@@ -10,6 +11,7 @@ interface MusicState {
 
 const initialState: MusicState = {
   musics: [],
+  music: undefined,
   loading: false,
   success: false,
   error: null,
@@ -20,11 +22,11 @@ export const musicSlice = createSlice({
   initialState: initialState,
   reducers: {
     // create music
-    createMusicAction: (state) => {
+    createMusicAction: (state, action) => {
       state.loading = true;
     },
     createMusicSuccessAction: (state, action) => {
-      state.musics = action.payload;
+      state.musics = [...state.musics, action.payload];
       state.loading = false;
     },
     createMusicErrorAction: (state, action) => {
@@ -56,9 +58,9 @@ export const musicSlice = createSlice({
       state.loading = true;
     },
     getMusicSuccessAction: (state, action) => {
-        state.musics = action.payload;
-        state.loading = false;
-        state.success = true;
+      state.musics = action.payload;
+      state.loading = false;
+      state.success = true;
     },
     getMusicErrorAction: (state, action) => {
       state.loading = false;
@@ -79,19 +81,27 @@ export const musicSlice = createSlice({
       state.error = action.payload;
     },
 
-
     //delete music
     deleteMusicAction: (state) => {
       state.loading = true;
     },
     deleteMusicSuccessAction: (state, action) => {
-        state.musics = state.musics.filter((music) => music.id !== action.payload);
-        state.loading = false;
-        state.success = true;
+      state.musics = state.musics.filter(
+        (music) => music.id !== action.payload
+      );
+      state.loading = false;
+      state.success = true;
     },
     deleteMusicErrorAction: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
+
+    // setSelectedmusic
+    setselectedMusic: (state, action) => {
+      state.music = action.payload
+    },
   },
 });
+
+export const {createMusicAction, createMusicSuccessAction, createMusicErrorAction} = musicSlice.actions;

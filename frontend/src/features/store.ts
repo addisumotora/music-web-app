@@ -13,7 +13,8 @@ const rootReducer = combineReducers({
   musicReducer: musicSlice.reducer,
   modalReducer: modalSlice.reducer
 });
-type RootState = ReturnType<typeof rootReducer>;
+
+export type RootState = ReturnType<typeof rootReducer>;
 
 const sagaMiddleware = createSagaMiddleware();
 
