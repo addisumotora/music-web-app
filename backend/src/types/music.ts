@@ -5,4 +5,5 @@ export interface Music {
     artist: string;
     album: string;
     image: string,
+    createdAt: Date
 }

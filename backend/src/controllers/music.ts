@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import cloudinary from "../cloudinary.config";
 import Music from "../models/music";
 import mongoose from "mongoose";
+import { time } from "console";
 
 export const createMusic = async (req: Request, res: Response) => {
   try {
@@ -11,6 +12,7 @@ export const createMusic = async (req: Request, res: Response) => {
     const newMusic = new Music({
       ...req.body,
       image: img.secure_url,
+      createAt: Date.now(),
     });
     await newMusic.save();
     res.status(201).json(newMusic);
@@ -21,7 +23,7 @@ export const createMusic = async (req: Request, res: Response) => {
  
 export const getMusics = async (req: Request, res: Response) => {
   try {
-    const musics = await Music.find();
+    const musics = await Music.find().sort({ createAt: -1 });
     res.status(200).json(musics);
   } catch (error) {
     res.status(404).json({ message: "no musics found" });

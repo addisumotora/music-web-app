@@ -12,6 +12,7 @@ import { closeModal } from "../features/modal/modalSlice";
 import { IoCloseOutline } from "react-icons/io5";
 import {
   createMusicAction,
+  setUpdate,
   updateMusicAction,
 } from "../features/music/musicSlice";
 import { useEffect } from "react";
@@ -90,7 +91,7 @@ const FormModal = () => {
     formState: { errors },
   } = useForm<Music>({
     resolver: yupResolver(
-      isUpdate ? updateMusicSchema as any : (createMusicSchema)
+      isUpdate ? (updateMusicSchema as any) : createMusicSchema
     ),
   });
 
@@ -101,6 +102,8 @@ const FormModal = () => {
           setValue(key as keyof Music, music[key as keyof Music]);
         }
       });
+    } else {
+      reset();
     }
   }, [isUpdate, music, setValue]);
 
@@ -123,7 +126,7 @@ const FormModal = () => {
       const hasImage =
         music.image instanceof FileList && music.image.length > 0;
       if (isUpdate && !hasImage) {
-        dispatch(updateMusicAction({...music, id: music._id, image: null}));
+        dispatch(updateMusicAction({ ...music, id: music._id, image: null }));
       } else if (!music.image || !(music.image instanceof FileList)) {
         console.error("No image selected");
         return;
@@ -131,11 +134,11 @@ const FormModal = () => {
         const file = music.image[0];
         const imageBase64 = await convertBase64(file);
         const updatedMusic: Music = {
-          ...music, 
+          ...music,
           image: imageBase64 as unknown as File,
-        }; 
+        };
         if (isUpdate) {
-          dispatch(updateMusicAction({id: music._id, ...updatedMusic}));
+          dispatch(updateMusicAction({ id: music._id, ...updatedMusic }));
         } else {
           dispatch(createMusicAction(updatedMusic));
         }
@@ -159,7 +162,12 @@ const FormModal = () => {
                 }}
               >
                 <FormHeader>Create Music</FormHeader>
-                <div onClick={() => dispatch(closeModal())}>
+                <div
+                  onClick={() => {
+                    dispatch(closeModal());
+                    dispatch(setUpdate(false));
+                  }}
+                >
                   {" "}
                   <IoCloseOutline size={30} cursor={"pointer"} />
                 </div>
@@ -280,7 +288,7 @@ const FormModal = () => {
                 </div>
               </div>
               <Button type="submit" disabled={loading}>
-                {loading ? "creating ..." : "Create Music"}
+                {loading? isUpdate ? "Updating..." : "Creating...": isUpdate? "Update Music": "Create Music"}
               </Button>
             </FormContainer>
           </Card>

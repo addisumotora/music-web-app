@@ -1,20 +1,15 @@
 import styled from "@emotion/styled";
-import { HiMenuAlt2 } from "react-icons/hi";
+import React from "react";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
-import CardSkeleton from "./CardSkeleton";
-import { useDispatch, useSelector } from "react-redux";
-import { GetMusicType, Music } from "../types/types";
-import { useEffect } from "react";
 import {
   deleteMusicAction,
-  getMusicAction,
   setUpdate,
   setselectedMusic,
 } from "../features/music/musicSlice";
+import { Music } from "../types/types";
 import { openModal } from "../features/modal/modalSlice";
-import MusicCard from "./MusicCard";
-
+import { useDispatch, useSelector } from "react-redux";
 const MusicContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -134,46 +129,64 @@ const AtSpan = styled.span`
   font-family: Georgia, "Times New Roman", Times, serif;
 `;
 
-const MusicList = () => {
-  const { loading, musics, deleting } = useSelector(
+const MusicCard = ({musics}: any) => {
+  const { deleting } = useSelector(
     (state: any) => state.musicReducer
   );
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getMusicAction());
-  }, []);
-
+  const udpateMusic = (music: Music) => {
+    dispatch(setselectedMusic(music));
+    dispatch(setUpdate(true));
+    dispatch(openModal());
+  };
 
   return (
-    <MusicContainer>
-      <Header>
-        <HiMenuAlt2 size={30} cursor="pointer" />
-        <Input placeholder="Search songs, albums" />
-        <ButtonContainer>
-          <Button style={{ background: "none" }}>Sign up</Button>
-          <Button>Sign In</Button>
-        </ButtonContainer>
-      </Header>
-      <CategoryContainer>
-        <CardHeader>
-          <h2>Discover</h2>
-          <p>Explore sonic realms with our Discover feature.</p>
-        </CardHeader>
-        {loading ? (
-          <CardSkeleton />
-        ) : (
-          <MusicCard musics = {musics}/>
-        )}
-      </CategoryContainer>
-      <CategoryContainer>
-        <CardHeader>
-          <h2>New Releases</h2>
-          <p>Explore sonic realms with our Discover feature.</p>
-        </CardHeader>
-        <MusicCard musics={musics.slice(0, Math.ceil(musics.length / 2))}/>
-      </CategoryContainer>
-    </MusicContainer>
+    <CardContainer>
+      {musics?.map((music: any) => (
+        <NavLink to="" style={{ color: "inherit" }}>
+          <Card>
+            <ImageContainer>
+              <Image className="image" src={music.image} />
+              <div>
+                {" "}
+                <IoPlayCircleOutline size={30} color="white" />
+              </div>
+            </ImageContainer>
+            <TitleContainer>
+              <div>
+                <p
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <span style={{ color: "#009688" }}>Artist :</span>{" "}
+                  <AtSpan>{music.artist}</AtSpan>
+                </p>
+                <p
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <span style={{ color: "#009688" }}>Album :</span>{" "}
+                  <AtSpan>{music.album}</AtSpan>
+                </p>
+              </div>
+            </TitleContainer>
+            <ActionButtonContainer>
+              <button onClick={() => udpateMusic(music)}>Edit</button>
+              <button onClick={() => dispatch(deleteMusicAction(music._id))}>
+                {deleting ? "deleting..." : "delete"}
+              </button>
+            </ActionButtonContainer>
+          </Card>
+        </NavLink>
+      ))}
+    </CardContainer>
   );
 };
 
-export default MusicList;
+export default MusicCard;
