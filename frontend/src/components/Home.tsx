@@ -10,15 +10,26 @@ const HomeContainer = styled.div`
   justify-content: space-between;
   height: 100%;
   color: white;
-`;
+  
+  @media (max-width: 430px) {
+    display: flex;
+    justify-content: center;
+  }
 
+`;
+const OutletContainer = styled.div`
+  width: 80%;
+  @media (max-width: 750px) {
+    width: 100%;
+  }
+`
 const Home = () => {
   return (
     <HomeContainer>
       <SideNav />
-      <div style={{width: "80%"}}>
+      <OutletContainer>
         <Outlet />
-      </div>
+      </OutletContainer>
       <RightSide />
       <FormModal />
     </HomeContainer>

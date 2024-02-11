@@ -29,6 +29,10 @@ const Container = styled.div`
     display: hidden;
     width: 0;
   }
+
+  @media (max-width: 750px) {
+    display: none;
+  }
 `;
 
 const Header = styled.h1`

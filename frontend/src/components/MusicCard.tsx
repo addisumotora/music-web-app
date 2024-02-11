@@ -17,6 +17,13 @@ const Card = styled.div`
   border-radius: 0.5rem;
   padding: 15px;
   width: 27vh;
+  @media (max-width: 950px) {
+    width: 27vw;
+  }
+  @media (max-width: 750px) {
+    width: 100%;
+  }
+
 `;
 
 const Image = styled.img`
@@ -25,6 +32,17 @@ const Image = styled.img`
   height: 20vh;
   object-fit: cover;
   border-radius: 0.2rem;
+  @media (max-width: 950px) {
+    width: 27vw;
+    height: 30vh;
+  }
+  @media (max-width: 750px) {
+    width: 100%;
+    height: 30vh;
+  }
+  @media (max-width: 430px) {
+    width: 100%;
+  }
 `;
 
 const CardContainer = styled.div`
@@ -32,6 +50,17 @@ const CardContainer = styled.div`
   flex-wrap: wrap;
   gap: 2rem;
   margin: 20px 0;
+
+  @media (max-width: 750px) {
+    margin: 0;
+    gap: 3rem;
+    width: 100%;
+  }
+
+    @media (max-width: 430px) {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const ActionButtonContainer = styled.div`

@@ -34,6 +34,10 @@ const Header = styled.div`
   align-items: center;
   margin: 10px 0;
   width: 100%;
+
+  @media (max-width: 500px) {
+    justify-content: center;
+  }
 `;
 const CardHeader = styled.div`
   width: 100%;
@@ -42,6 +46,9 @@ const CardHeader = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   gap: 10px;
+  @media (max-width: 500px) {
+    display: none; 
+  }
 `;
 const Button = styled.div`
   padding: 10px;
@@ -61,6 +68,11 @@ const Input = styled.input`
   &::placeholder {
     color: #a29e9e;
   }
+
+  @media (max-width: 500px) {
+    width: 80%;
+    padding: 10px;
+  }
 `;
 
 
@@ -70,7 +82,7 @@ const MusicList = () => {
   );
   const { user }  = useSelector((state: RootState) => state.userReducer)
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(getMusicAction());
   }, []);

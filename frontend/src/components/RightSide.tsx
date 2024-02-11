@@ -15,6 +15,10 @@ const Container = styled.div`
     display: hidden;
     width: 0;
   }
+
+  @media (max-width: 950px) {
+    display: none; 
+  }
 `;
 
 const TopPicks = styled.div`
