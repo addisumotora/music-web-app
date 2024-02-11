@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React from "react";
+import { useState } from "react";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import {
@@ -10,22 +10,7 @@ import {
 import { Music } from "../types/types";
 import { openModal } from "../features/modal/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
-const MusicContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  height: 100vh;
-  overflow-y: auto;
-  padding: 0 20px;
 
-  &::-webkit-scrollbar {
-    display: hidden;
-    width: 0;
-  }
-`;
-const CategoryContainer = styled.div`
-  width: 100%;
-`;
 
 const Card = styled.div`
   background-color: #14252f;
@@ -34,16 +19,6 @@ const Card = styled.div`
   width: 27vh;
 `;
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 10px 0;
-  width: 100%;
-`;
-const CardHeader = styled.div`
-  width: 100%;
-`;
 const Image = styled.img`
   position: relative;
   width: 27vh;
@@ -58,28 +33,7 @@ const CardContainer = styled.div`
   gap: 2rem;
   margin: 20px 0;
 `;
-const ButtonContainer = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-const Button = styled.div`
-  padding: 10px;
-  background-color: #009688;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-const Input = styled.input`
-  width: 50%;
-  padding: 15px;
-  border-radius: 5px;
-  background-color: #5555;
-  border: none;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  &::placeholder {
-    color: #a29e9e;
-  }
-`;
+
 const ActionButtonContainer = styled.div`
   display: flex;
   gap: 5px;
@@ -87,9 +41,8 @@ const ActionButtonContainer = styled.div`
   justify-content: flex-end;
   button {
     background: none;
-    color: white;
     border: none;
-    color: red;
+    color: blue;
     cursor: pointer;
   }
 `;
@@ -124,15 +77,14 @@ const TitleContainer = styled.div`
 `;
 const AtSpan = styled.span`
   color: #a3a3a3;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 1rem;
   font-family: Georgia, "Times New Roman", Times, serif;
 `;
 
-const MusicCard = ({musics}: any) => {
-  const { deleting } = useSelector(
-    (state: any) => state.musicReducer
-  );
+const MusicCard = ({ musics }: any) => {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const { deleting } = useSelector((state: any) => state.musicReducer);
   const dispatch = useDispatch();
   const udpateMusic = (music: Music) => {
     dispatch(setselectedMusic(music));
@@ -142,8 +94,8 @@ const MusicCard = ({musics}: any) => {
 
   return (
     <CardContainer>
-      {musics?.map((music: any) => (
-        <NavLink to="" style={{ color: "inherit" }}>
+      {musics?.map((music: any, index: number) => (
+        <NavLink to="" key={index} style={{ color: "inherit" }}>
           <Card>
             <ImageContainer>
               <Image className="image" src={music.image} />
@@ -178,8 +130,14 @@ const MusicCard = ({musics}: any) => {
             </TitleContainer>
             <ActionButtonContainer>
               <button onClick={() => udpateMusic(music)}>Edit</button>
-              <button onClick={() => dispatch(deleteMusicAction(music._id))}>
-                {deleting ? "deleting..." : "delete"}
+              <button
+              style={{color: 'red'}}
+                onClick={() => {
+                  dispatch(deleteMusicAction(music._id));
+                  setSelectedIndex(index);
+                }}
+              >
+                {deleting && selectedIndex === index ? "deleting..." : "delete"}
               </button>
             </ActionButtonContainer>
           </Card>

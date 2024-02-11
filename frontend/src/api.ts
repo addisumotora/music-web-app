@@ -55,6 +55,14 @@ export const deleteIMusic = async (id: string) => {
     return Promise.reject(error);
   }
 };
+export const searchIMusic = async (searchTerm: string) => {
+  try {
+    const response = await api.get(`api/music/search`,  { params: { searchTerm } }) 
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
 
 
 

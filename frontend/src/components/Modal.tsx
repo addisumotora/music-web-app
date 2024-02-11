@@ -1,10 +1,8 @@
 import styled from "@emotion/styled";
-import { useNavigate } from "react-router-dom";
 import { Music } from "../types/types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createMusicSchema, updateMusicSchema } from "../schemas/music.schema";
 import { RootState } from "../features/store";
@@ -57,11 +55,7 @@ const Input = styled.input`
     outline: none;
   }
 `;
-const Label = styled.label`
-  color: #a3a3a3;
-  font-weight: 600;
-  font-size: 1rem;
-`;
+
 const Button = styled.button`
   padding: 15px;
   color: white;
@@ -145,6 +139,8 @@ const FormModal = () => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      reset();
     }
   };
 

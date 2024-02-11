@@ -108,68 +108,67 @@ const Register = () => {
 
   return (
     <Container>
-      <Card>
-        <Header>𝒜𝒹𝒹𝒾𝓈𝒱𝒾𝒷𝑒𝓈</Header>
-        <FormContainer onSubmit={handleSubmit(onSubmit)}>
-          <FormHeader>Sign up</FormHeader>
-          <Label htmlFor="email">Email Address</Label>
+    <Card>
+      <Header>𝒜𝒹𝒹𝒾𝓈𝒱𝒾𝒷𝑒𝓈</Header>
+      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+        <FormHeader>Sign Up</FormHeader>
+        <Label htmlFor="email">Email Address</Label>
+        <Input
+          type="email"
+          id="email"
+          placeholder="Email address"
+          {...register("email")}
+        />
+        {errors.email && <Error>{errors.email.message}</Error>}
+        <Label htmlFor="password">Password</Label>
+        <PasswodContainer>
           <Input
-            type="email"
-            id="email"
-            placeholder="Email address"
-            {...register("email")}
+            style={{ width: "100%" }}
+            type={`${isVisibe ? "text" : "password"}`}
+            id="password"
+            placeholder="Password"
+            {...register("password")}
           />
-          {errors.email && <Error>{errors.email.message}</Error>}
-          <Label htmlFor="password">Password</Label>
-          <PasswodContainer>
-            <Input
-              style={{ width: "100%" }}
-              type={`${isVisibe ? "text" : "password"}`}
-              id="password"
-              placeholder="Password"
-              {...register("password")}
+          {isVisibe ? (
+            <MdVisibility
+              onClick={() => setIsvisible(!isVisibe)}
+              color="#a3a3a3"
+              size={25}
+              style={{
+                marginLeft: "-4",
+                position: "absolute",
+                right: 10,
+                cursor: "pointer",
+              }}
             />
-            {isVisibe ? (
-              <MdVisibility
-                onClick={() => setIsvisible(!isVisibe)}
-                color="#a3a3a3"
-                size={25}
-                style={{
-                  marginLeft: "-4",
-                  position: "absolute",
-                  right: 10,
-                  cursor: "pointer",
-                }}
-              />
-            ) : (
-              <MdVisibilityOff
-                onClick={() => setIsvisible(!isVisibe)}
-                color="#a3a3a3"
-                size={25}
-                style={{
-                  marginLeft: "-4",
-                  position: "absolute",
-                  right: 10,
-                  cursor: "pointer",
-                }}
-              />
-            )}
-          </PasswodContainer>
-          {errors.password && <Error>{errors.password.message}</Error>}
-          <LinkContainer>
-            {" "}
-            <Paragraph>do you have account?</Paragraph>{" "}
-            <Link to="/register" style={{ color: "#009688" }}>
-              Login
-            </Link>
-          </LinkContainer>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Signing up..." : "Sign up"}
-          </Button>
-        </FormContainer>
-      </Card>
-      <ToastContainer position="top-right" autoClose={5000} />
-    </Container>
+          ) : (
+            <MdVisibilityOff
+              onClick={() => setIsvisible(!isVisibe)}
+              color="#a3a3a3"
+              size={25}
+              style={{
+                marginLeft: "-4",
+                position: "absolute",
+                right: 10,
+                cursor: "pointer",
+              }}
+            />
+          )}
+        </PasswodContainer>
+        {errors.password && <Error>{errors.password.message}</Error>}
+        <LinkContainer>
+          <Paragraph>don't you have account? </Paragraph>
+          <Link to="/login" style={{ color: "#009688" }}>
+            Login
+          </Link>
+        </LinkContainer>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Signing up..." : "Sign Up"}
+        </Button>
+      </FormContainer>
+    </Card>
+    <ToastContainer position="top-right" autoClose={5000} />
+  </Container>
   );
 };
 export default Register;

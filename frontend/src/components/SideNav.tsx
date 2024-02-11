@@ -7,8 +7,11 @@ import { MdSupervisorAccount } from "react-icons/md";
 
 import { MdAddCircle } from "react-icons/md";
 import { NavLink } from "react-router-dom";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../features/modal/modalSlice";
+import { RootState } from "../features/store";
+import { LuLogOut } from "react-icons/lu";
+import { logout } from "../features/user/userSlice";
 
 const Container = styled.div`
   display: flex;
@@ -62,6 +65,7 @@ const AuctionItem = styled.button`
 `;
 
 const SideNav = () => {
+  const { user } = useSelector((state: RootState) => state.userReducer);
   const dispatch = useDispatch();
 
   return (
@@ -70,7 +74,7 @@ const SideNav = () => {
       <div>
         <ActionsHeader>MENU</ActionsHeader>
         <NavLink
-          to="/music-list"
+          to="/"
           style={{
             display: "flex",
             alignItems: "center",
@@ -82,34 +86,14 @@ const SideNav = () => {
             <IoPlayCircleOutline /> Discover
           </AuctionItem>
         </NavLink>
-        <NavLink
-          to="/"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: ".70rem",
-            color: "inherit",
-          }}
-        >
-          <AuctionItem>
-            <BsBrowserChrome />
-            Browse
-          </AuctionItem>
-        </NavLink>
-        <NavLink
-          to="/"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: ".70rem",
-            color: "inherit",
-          }}
-        >
-          <AuctionItem>
-            <MdOutlineManageSearch />
-            Search{" "}
-          </AuctionItem>
-        </NavLink>
+        <AuctionItem>
+          <BsBrowserChrome />
+          Browse
+        </AuctionItem>
+        <AuctionItem>
+          <MdOutlineManageSearch />
+          Search{" "}
+        </AuctionItem>
       </div>
       <div>
         <ActionsHeader>ACTIONS</ActionsHeader>
@@ -120,33 +104,43 @@ const SideNav = () => {
       </div>
       <div>
         <ActionsHeader>ACCOUNT</ActionsHeader>
-        <NavLink
-          to="/register"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: ".70rem",
-            color: "inherit",
-          }}
-        >
-          <AuctionItem>
-            {" "}
-            <MdSupervisorAccount /> Sign Up{" "}
-          </AuctionItem>
-        </NavLink>
-        <NavLink
-          to="/login"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: ".70rem",
-            color: "inherit",
-          }}
-        >
-          <AuctionItem>
-            <CiLogin /> Sign In
-          </AuctionItem>
-        </NavLink>
+        {!user ? (
+          <div>
+            <NavLink
+              to="/register"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: ".70rem",
+                color: "inherit",
+              }}
+            >
+              <AuctionItem>
+                {" "}
+                <MdSupervisorAccount /> Sign Up{" "}
+              </AuctionItem>
+            </NavLink>
+            <NavLink
+              to="/login"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: ".70rem",
+                color: "inherit",
+              }}
+            >
+              <AuctionItem>
+                <CiLogin /> Sign In
+              </AuctionItem>
+            </NavLink>
+          </div>
+        ) : (
+          <div>
+            <AuctionItem onClick={() => dispatch(logout())}>
+              <LuLogOut /> Logout
+            </AuctionItem>
+          </div>
+        )}
       </div>
     </Container>
   );

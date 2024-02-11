@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import cloudinary from "../cloudinary.config";
 import Music from "../models/music";
 import mongoose from "mongoose";
-import { time } from "console";
 
 export const createMusic = async (req: Request, res: Response) => {
   try {
@@ -23,7 +22,7 @@ export const createMusic = async (req: Request, res: Response) => {
  
 export const getMusics = async (req: Request, res: Response) => {
   try {
-    const musics = await Music.find().sort({ createAt: -1 });
+    const musics = (await Music.find()).reverse();
     res.status(200).json(musics);
   } catch (error) {
     res.status(404).json({ message: "no musics found" });
@@ -94,6 +93,7 @@ export const deleteMusic = async (req: Request, res: Response) => {
 };
 
 export const filterByParameter = async (req: Request, res: Response) => {
+  console.log(req.query.searchTerm?.toString())
   try {
     const searchTerm: string | undefined = req.query.searchTerm?.toString();
     if (!searchTerm) {
@@ -109,7 +109,7 @@ export const filterByParameter = async (req: Request, res: Response) => {
       ],
     });
 
-    res.status(200).json({ musics });
+    res.status(200).json(musics);
   } catch (error) {
     console.error("Error in filterByParameter:", error);
     res.status(500).json({ message: "Internal server error" });

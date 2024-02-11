@@ -49,6 +49,10 @@ export const userSlice = createSlice({
       state.error = action.payload;
       state.success = false;
     },
+
+    logout: (state) => {
+      state.user = undefined;
+    }
   },
 });
 
@@ -58,7 +62,8 @@ export const {
   createUserErrorAction,
   userLoginAction,
   userLoginSuccessAction,
-  userLoginErrorAction
+  userLoginErrorAction, 
+  logout
 } = userSlice.actions;
 
 export default userSlice;

@@ -10,8 +10,8 @@ const routes = createBrowserRouter([
     path: '/',
     element: <Home/> , 
     children: [
-      {
-        path: "/music-list",
+      { 
+        path: '',
         element: <MusicList/>,
       },
       {

@@ -45,7 +45,7 @@ export const musicSlice = createSlice({
 
     updateMusicSuccessAction: (state, action) => {
       state.loading = false;
-      const  data  = action.payload;
+      const data = action.payload;
       const index = state.musics.findIndex((item) => item._id === data._id);
       if (index !== -1) {
         state.musics[index] = { ...state.musics[index], ...data };
@@ -125,5 +125,10 @@ export const {
   getMusicErrorAction,
   setselectedMusic,
   setUpdate,
-  deleteMusicAction,deleteMusicErrorAction, deleteMusicSuccessAction
+  deleteMusicAction,
+  deleteMusicErrorAction,
+  deleteMusicSuccessAction,
+  searchMusicAction,
+  searchMusicErrorAction,
+  searchMusicSuccessAction,
 } = musicSlice.actions;
