@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import  cloudinary  from "../cloudinary.config";
+import cloudinary from "../cloudinary.config";
 import Music from "../models/music";
 import mongoose from "mongoose";
 
@@ -12,16 +12,13 @@ export const createMusic = async (req: Request, res: Response) => {
       ...req.body,
       image: img.secure_url,
     });
-    await newMusic.save(); 
-    res
-      .status(201)
-      .json({ message: "music successfuly created", music: newMusic });
-  } 
-  catch (error: any) {
-    res.status(500).json({ message: "Internal serve error"});
+    await newMusic.save();
+    res.status(201).json(newMusic);
+  } catch (error: any) {
+    res.status(500).json({ message: "Internal serve error" });
   }
 };
-
+ 
 export const getMusics = async (req: Request, res: Response) => {
   try {
     const musics = await Music.find();
@@ -33,7 +30,6 @@ export const getMusics = async (req: Request, res: Response) => {
 
 export const updateMusic = async (req: Request, res: Response) => {
   const { id } = req.params;
-
   try {
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).json({ message: `No music with id: ${id}` });
@@ -49,13 +45,13 @@ export const updateMusic = async (req: Request, res: Response) => {
         { new: true }
       );
     } else {
-      updatedMusic = await Music.findByIdAndUpdate(id, req.body, { new: true });
-    }
-
-    res.status(200).json({
-      message: "Music successfully updated",
-      updatedMusic: updatedMusic,
-    });
+      const updatedBody = { ...req.body };
+      delete updatedBody.image;
+      updatedMusic = await Music.findByIdAndUpdate(id, updatedBody, {
+        new: true,
+      }); 
+    } 
+    res.status(200).json(updatedMusic);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -64,7 +60,7 @@ export const updateMusic = async (req: Request, res: Response) => {
 
 export const findbyId = async (req: Request, res: Response) => {
   const { id } = req.params;
-  try {
+  try { 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).json({ message: `no music with id:${id}` });
     const music = await Music.findOne({ id });
@@ -72,7 +68,7 @@ export const findbyId = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
-};
+}; 
 
 export const deleteMusic = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -95,28 +91,25 @@ export const deleteMusic = async (req: Request, res: Response) => {
   res.status(204).json("music deleted successfuly");
 };
 
-
 export const filterByParameter = async (req: Request, res: Response) => {
   try {
     const searchTerm: string | undefined = req.query.searchTerm?.toString();
     if (!searchTerm) {
-      return res.status(400).json({ message: 'No search term provided' });
+      return res.status(400).json({ message: "No search term provided" });
     }
 
     const musics = await Music.find({
       $or: [
-        { artist: { $regex: new RegExp(searchTerm, 'i') } },
-        { genre: { $regex: new RegExp(searchTerm, 'i') } },
-        { title: { $regex: new RegExp(searchTerm, 'i') } },
-        { album: { $regex: new RegExp(searchTerm, 'i') } },
+        { artist: { $regex: new RegExp(searchTerm, "i") } },
+        { genre: { $regex: new RegExp(searchTerm, "i") } },
+        { title: { $regex: new RegExp(searchTerm, "i") } },
+        { album: { $regex: new RegExp(searchTerm, "i") } },
       ],
     });
 
     res.status(200).json({ musics });
   } catch (error) {
-    console.error('Error in filterByParameter:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error in filterByParameter:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
-
-

@@ -15,7 +15,7 @@ export interface ILoginUser {
 }
 
 export interface Music {
-  id?: string;
+  _id?: string;
   title: string;
   album: string;
   genre: string;
@@ -24,7 +24,7 @@ export interface Music {
 }
 
 export interface GetMusicType {
-  id?: string;
+  _id?: string;
   title: string;
   album: string;
   genre: string;

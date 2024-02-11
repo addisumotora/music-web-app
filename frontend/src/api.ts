@@ -30,11 +30,31 @@ export const createIMusic = async (music: any) => {
     return Promise.reject(error);
   }
 };
-export const getIMusic = async () => {
+export const updateIMusic = async (music: any) => {
   try {
-    const response = await api.get('api/music/')
+    const response = await api.put(`api/music/${music?.id}`, music);
     return response.data;
   } catch (error) {
     return Promise.reject(error);
   }
 };
+export const getIMusic = async () => {
+  try {
+    const response = await api.get('api/music')
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const deleteIMusic = async (id: string) => {
+  try {
+    const response = await api.delete(`api/music/${id}`)
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+
+

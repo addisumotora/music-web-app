@@ -6,7 +6,8 @@ import CardSkeleton from "./CardSkeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { GetMusicType, Music } from "../types/types";
 import { useEffect } from "react";
-import { getMusicAction } from "../features/music/musicSlice";
+import { deleteMusicAction, getMusicAction, setUpdate, setselectedMusic } from "../features/music/musicSlice";
+import { openModal } from "../features/modal/modalSlice";
 
 const MusicContainer = styled.div`
   display: flex;
@@ -29,7 +30,7 @@ const Card = styled.div`
   background-color: #14252f;
   border-radius: 0.5rem;
   padding: 15px;
-  max-width: 27vh;
+  width: 27vh;
 `;
 
 const Header = styled.div`
@@ -44,8 +45,8 @@ const CardHeader = styled.div`
 `;
 const Image = styled.img`
   position: relative;
-  width: 11rem;
-  height: 8rem;
+  width: 27vh;
+  height: 20vh;
   object-fit: cover;
   border-radius: 0.2rem;
 `;
@@ -120,14 +121,26 @@ const TitleContainer = styled.div`
   display: flex;
   gap: 1rem;
 `;
-
+const AtSpan = styled.span`
+  color: #a3a3a3;
+  font-weight: 600;
+  font-size: 1rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+`
 
 const MusicList = () => {
-  const { loading, musics } = useSelector((state: any) => state.musicReducer);
+  const { loading, musics, deleting } = useSelector((state: any) => state.musicReducer);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMusicAction())
   },[])
+
+  const udpateMusic = (music: Music) => {
+    dispatch(setselectedMusic(music));
+    dispatch(setUpdate(true))
+    dispatch(openModal())
+  }
+
   return (
     <MusicContainer>
       <Header>
@@ -148,10 +161,10 @@ const MusicList = () => {
         ) : (
           <CardContainer>
             {musics.map((music: any) => (
-              <NavLink to="./8989" style={{ color: "inherit" }}>
+              <NavLink to="" style={{ color: "inherit" }}>
                 <Card>
                   <ImageContainer>
-                    <Image className="image" src={music.music.image} />
+                    <Image className="image" src={music.image} />
                     <div>
                       {" "}
                       <IoPlayCircleOutline size={30} color="white" />
@@ -167,7 +180,7 @@ const MusicList = () => {
                         }}
                       >
                         <span style={{ color: "#009688" }}>Artist :</span>{" "}
-                        <span>{music.music.artist}</span>
+                        <AtSpan>{music.artist}</AtSpan>
                       </p>
                       <p
                         style={{
@@ -177,13 +190,13 @@ const MusicList = () => {
                         }}
                       >
                         <span style={{ color: "#009688" }}>Album :</span>{" "}
-                        <span>{music.music.album}</span>
+                        <AtSpan>{music.album}</AtSpan>
                       </p>
                     </div>
                   </TitleContainer>
                   <ActionButtonContainer>
-                    <button>Edit</button>
-                    <button>Delete</button>
+                    <button onClick={() => udpateMusic(music)}>Edit</button>
+                    <button onClick={() => dispatch(deleteMusicAction(music._id))}>{deleting? 'deleting...': 'delete'}</button>
                   </ActionButtonContainer>
                 </Card>
               </NavLink>

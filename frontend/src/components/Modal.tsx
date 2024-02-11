@@ -6,13 +6,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { musicSchema } from "../schemas/music.schema";
+import { createMusicSchema, updateMusicSchema } from "../schemas/music.schema";
 import { RootState } from "../features/store";
 import { closeModal } from "../features/modal/modalSlice";
 import { IoCloseOutline } from "react-icons/io5";
 import {
-  createMusicAction
+  createMusicAction,
+  updateMusicAction,
 } from "../features/music/musicSlice";
+import { useEffect } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -74,18 +76,33 @@ const Error = styled.span`
 `;
 
 const FormModal = () => {
-  const { loading } = useSelector((state: RootState) => state.musicReducer);
+  const { loading, music, isUpdate } = useSelector(
+    (state: RootState) => state.musicReducer
+  );
   const { isOpen } = useSelector((state: RootState) => state.modalReducer);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<Music>({
-    resolver: yupResolver(musicSchema),
+    resolver: yupResolver(
+      isUpdate ? updateMusicSchema as any : (createMusicSchema)
+    ),
   });
+
+  useEffect(() => {
+    if (isUpdate && music) {
+      Object.keys(music).forEach((key) => {
+        if (key !== "image") {
+          setValue(key as keyof Music, music[key as keyof Music]);
+        }
+      });
+    }
+  }, [isUpdate, music, setValue]);
 
   const convertBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -102,24 +119,31 @@ const FormModal = () => {
   };
 
   const onSubmit: SubmitHandler<Music> = async (music: Music) => {
-    if (!music.image || !(music.image instanceof FileList)) {
-      console.error("No image selected");
-      return;
-    }
-    const file = music.image[0];
     try {
-      const imageBase64 = await convertBase64(file);
-      const updatedMusic: Music = {
-        ...music,
-        image: imageBase64 as unknown as File,
-      };
-      dispatch(createMusicAction(updatedMusic));
-      reset();
+      const hasImage =
+        music.image instanceof FileList && music.image.length > 0;
+      if (isUpdate && !hasImage) {
+        dispatch(updateMusicAction({...music, id: music._id, image: null}));
+      } else if (!music.image || !(music.image instanceof FileList)) {
+        console.error("No image selected");
+        return;
+      } else {
+        const file = music.image[0];
+        const imageBase64 = await convertBase64(file);
+        const updatedMusic: Music = {
+          ...music, 
+          image: imageBase64 as unknown as File,
+        }; 
+        if (isUpdate) {
+          dispatch(updateMusicAction({id: music._id, ...updatedMusic}));
+        } else {
+          dispatch(createMusicAction(updatedMusic));
+        }
+      }
     } catch (error) {
       console.error(error);
     }
   };
-  
 
   return (
     <>
@@ -141,7 +165,48 @@ const FormModal = () => {
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <Input type="file" {...register("image")} multiple />
+                {isUpdate && (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "1rem",
+                    }}
+                  >
+                    <img
+                      src={music?.image}
+                      alt="Current Image"
+                      style={{
+                        width: "10rem",
+                        height: "100%",
+                        marginBottom: "1rem",
+                      }}
+                    />
+
+                    <input
+                      id="image"
+                      type="file"
+                      height="50%"
+                      {...register("image")}
+                      style={{
+                        border: "1px solid #3f5461",
+                        borderRadius: "5px",
+                        padding: "10px",
+                        marginBottom: "10px",
+                      }}
+                      multiple
+                    />
+                  </div>
+                )}
+                {!isUpdate && (
+                  <Input
+                    id="image"
+                    type="file"
+                    {...register("image")}
+                    required
+                    multiple
+                  />
+                )}
                 {errors.image && <Error>{errors.image.message}</Error>}
                 <div style={{ display: "flex", gap: "1rem", margin: "1rem 0" }}>
                   <div>
@@ -219,7 +284,6 @@ const FormModal = () => {
               </Button>
             </FormContainer>
           </Card>
-          <ToastContainer position="top-right" autoClose={5000} />
         </Container>
       )}
     </>

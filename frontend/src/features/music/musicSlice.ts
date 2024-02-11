@@ -3,18 +3,22 @@ import { GetMusicType, Music } from "../../types/types";
 
 interface MusicState {
   musics: GetMusicType[];
-  music: Music | undefined;
+  music: GetMusicType | undefined;
+  isUpdate: boolean;
   loading: boolean;
   success: boolean;
   error: string | null;
+  deleting: boolean;
 }
 
 const initialState: MusicState = {
   musics: [],
   music: undefined,
+  isUpdate: false,
   loading: false,
   success: false,
   error: null,
+  deleting: false,
 };
 
 export const musicSlice = createSlice({
@@ -35,16 +39,16 @@ export const musicSlice = createSlice({
     },
 
     // updatemusic
-    updateMusicAction: (state) => {
+    updateMusicAction: (state, action) => {
       state.loading = true;
     },
 
     updateMusicSuccessAction: (state, action) => {
       state.loading = false;
-      const { id, updatedData } = action.payload;
-      const index = state.musics.findIndex((item) => item.id === id);
+      const  data  = action.payload;
+      const index = state.musics.findIndex((item) => item._id === data._id);
       if (index !== -1) {
-        state.musics[index] = { ...state.musics[index], ...updatedData };
+        state.musics[index] = { ...state.musics[index], ...data };
       }
     },
 
@@ -83,25 +87,43 @@ export const musicSlice = createSlice({
 
     //delete music
     deleteMusicAction: (state) => {
-      state.loading = true;
+      state.deleting = true;
     },
     deleteMusicSuccessAction: (state, action) => {
       state.musics = state.musics.filter(
-        (music) => music.id !== action.payload
+        (music) => music._id !== action.payload
       );
-      state.loading = false;
+      state.deleting = false;
       state.success = true;
     },
     deleteMusicErrorAction: (state, action) => {
-      state.loading = false;
+      state.deleting = false;
       state.error = action.payload;
     },
 
     // setSelectedmusic
     setselectedMusic: (state, action) => {
-      state.music = action.payload
+      state.music = action.payload;
+    },
+
+    //setUpdate
+    setUpdate: (state, action) => {
+      state.isUpdate = action.payload;
     },
   },
 });
 
-export const {createMusicAction, createMusicSuccessAction, createMusicErrorAction, getMusicAction, getMusicSuccessAction,getMusicErrorAction} = musicSlice.actions;
+export const {
+  createMusicAction,
+  createMusicSuccessAction,
+  createMusicErrorAction,
+  updateMusicAction,
+  updateMusicSuccessAction,
+  updateMusicErrorAction,
+  getMusicAction,
+  getMusicSuccessAction,
+  getMusicErrorAction,
+  setselectedMusic,
+  setUpdate,
+  deleteMusicAction,deleteMusicErrorAction, deleteMusicSuccessAction
+} = musicSlice.actions;
