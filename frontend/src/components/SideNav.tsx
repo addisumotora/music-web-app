@@ -30,7 +30,7 @@ const Container = styled.div`
     width: 0;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: 840px) {
     display: none;
   }
 `;
@@ -103,7 +103,7 @@ const SideNav = () => {
         <ActionsHeader>ACTIONS</ActionsHeader>
         <AuctionItem onClick={() => dispatch(openModal())}>
           <MdAddCircle />
-          Create Music
+          Add Music
         </AuctionItem>
       </div>
       <div>

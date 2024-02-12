@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { HiMenuAlt2 } from "react-icons/hi";
 import CardSkeleton from "./CardSkeleton";
 import { useDispatch, useSelector } from "react-redux";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect} from "react";
 import {
   getMusicAction, searchMusicAction,
 } from "../features/music/musicSlice";
@@ -34,10 +34,6 @@ const Header = styled.div`
   align-items: center;
   margin: 10px 0;
   width: 100%;
-
-  @media (max-width: 500px) {
-    justify-content: center;
-  }
 `;
 const CardHeader = styled.div`
   width: 100%;
@@ -64,14 +60,15 @@ const Input = styled.input`
   background-color: #5555;
   border: none;
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
   &::placeholder {
     color: #a29e9e;
   }
 
   @media (max-width: 500px) {
-    width: 80%;
+    width: 70%;
     padding: 10px;
+    border-radius: 2px;
+    font-size: 10px;
   }
 `;
 
@@ -85,7 +82,7 @@ const MusicList = () => {
 
   useEffect(() => {
     dispatch(getMusicAction());
-  }, []);
+  }, [dispatch]);
 
 
   const delayedSearch = useCallback(

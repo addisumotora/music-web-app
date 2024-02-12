@@ -70,6 +70,18 @@ const Error = styled.span`
   color: #ef4444;
 `;
 
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media (max-width: 500px) {
+    div{
+      display: flex;
+      flex-direction: column;
+    }
+  }
+`
+
+
 const FormModal = () => {
   const { loading, music, isUpdate } = useSelector(
     (state: RootState) => state.musicReducer
@@ -168,7 +180,7 @@ const FormModal = () => {
                   <IoCloseOutline size={30} cursor={"pointer"} />
                 </div>
               </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
+              <InputContainer>
                 {isUpdate && (
                   <div
                     style={{
@@ -282,7 +294,7 @@ const FormModal = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </InputContainer>
               <Button type="submit" disabled={loading}>
                 {loading? isUpdate ? "Updating..." : "Creating...": isUpdate? "Update Music": "Create Music"}
               </Button>

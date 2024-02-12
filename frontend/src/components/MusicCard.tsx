@@ -11,7 +11,6 @@ import { Music } from "../types/types";
 import { openModal } from "../features/modal/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-
 const Card = styled.div`
   background-color: #14252f;
   border-radius: 0.5rem;
@@ -23,7 +22,6 @@ const Card = styled.div`
   @media (max-width: 750px) {
     width: 100%;
   }
-
 `;
 
 const Image = styled.img`
@@ -36,12 +34,13 @@ const Image = styled.img`
     width: 27vw;
     height: 30vh;
   }
-  @media (max-width: 750px) {
+  @media (max-width: 800px) {
     width: 100%;
     height: 30vh;
   }
   @media (max-width: 430px) {
     width: 100%;
+    margin: 0;
   }
 `;
 
@@ -57,7 +56,7 @@ const CardContainer = styled.div`
     width: 100%;
   }
 
-    @media (max-width: 430px) {
+  @media (max-width: 430px) {
     display: flex;
     justify-content: center;
   }
@@ -160,7 +159,7 @@ const MusicCard = ({ musics }: any) => {
             <ActionButtonContainer>
               <button onClick={() => udpateMusic(music)}>Edit</button>
               <button
-              style={{color: 'red'}}
+                style={{ color: "red" }}
                 onClick={() => {
                   dispatch(deleteMusicAction(music._id));
                   setSelectedIndex(index);

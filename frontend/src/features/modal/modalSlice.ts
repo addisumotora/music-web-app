@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface ModalState {
   isOpen: boolean;
+  isSideBaropen: boolean;
 }
 
 const initState: ModalState = {
   isOpen: false,
+  isSideBaropen: true
 };
 
 const modalSlice = createSlice({
@@ -17,6 +19,14 @@ const modalSlice = createSlice({
     },
     closeModal: (state) => {
       state.isOpen = false;
+    },
+
+    openSidebar: (state) => {
+      state.isSideBaropen = true;
+    },
+    
+    closeSidebar: (state) => {
+      state.isSideBaropen = true;
     }
   },
 });
