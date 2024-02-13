@@ -109,7 +109,7 @@ const FormModal = () => {
         }
       });
     } else {
-      reset();
+      reset(); 
     }
   }, [isUpdate, music, setValue]);
 

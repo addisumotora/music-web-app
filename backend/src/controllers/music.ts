@@ -107,7 +107,7 @@ export const filterByParameter = async (req: Request, res: Response) => {
         { title: { $regex: new RegExp(searchTerm, "i") } },
         { album: { $regex: new RegExp(searchTerm, "i") } },
       ],
-    });
+    }); 
 
     res.status(200).json(musics);
   } catch (error) {

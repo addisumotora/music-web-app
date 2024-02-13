@@ -34,7 +34,7 @@ const Image = styled.img`
     width: 27vw;
     height: 30vh;
   }
-  @media (max-width: 800px) {
+  @media (max-width: 840px) {
     width: 100%;
     height: 30vh;
   }
@@ -50,7 +50,7 @@ const CardContainer = styled.div`
   gap: 2rem;
   margin: 20px 0;
 
-  @media (max-width: 750px) {
+  @media (max-width: 840px) {
     margin: 0;
     gap: 3rem;
     width: 100%;
@@ -123,7 +123,7 @@ const MusicCard = ({ musics }: any) => {
   return (
     <CardContainer>
       {musics?.map((music: any, index: number) => (
-        <NavLink to="" key={index} style={{ color: "inherit" }}>
+        <NavLink to={`/${music._id}`} key={index} style={{ color: "inherit" }}>
           <Card>
             <ImageContainer>
               <Image className="image" src={music.image} />

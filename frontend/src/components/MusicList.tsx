@@ -10,11 +10,13 @@ import MusicCard from "./MusicCard";
 import { RootState } from "../features/store";
 import { logout } from "../features/user/userSlice";
 import {debounce}  from 'lodash'
+import { sidebarAction } from "../features/modal/modalSlice";
 
 const MusicContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
+  width: auto;
   height: 100vh;
   overflow-y: auto;
   padding: 0 20px;
@@ -105,7 +107,7 @@ const MusicList = () => {
   return (
     <MusicContainer>
       <Header>
-        <HiMenuAlt2 size={30} cursor="pointer" />
+        <HiMenuAlt2 onClick={() => dispatch(sidebarAction())} size={30} cursor="pointer" />
         <Input onChange={(e) => handleSearchChange(e)} placeholder="Search songs, artist, album ..." />
         <ButtonContainer>
           {!user? <>

@@ -21,15 +21,14 @@ const modalSlice = createSlice({
       state.isOpen = false;
     },
 
-    openSidebar: (state) => {
-      state.isSideBaropen = true;
+    sidebarAction: (state) => {
+      state.isSideBaropen = !state.isSideBaropen
     },
-    
-    closeSidebar: (state) => {
+    sidebarFalse: (state) => {
       state.isSideBaropen = true;
     }
   },
 });
 
-export const { openModal, closeModal } = modalSlice.actions;
+export const { openModal, closeModal, sidebarAction, sidebarFalse} = modalSlice.actions;
 export default modalSlice;
