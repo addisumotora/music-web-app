@@ -30,7 +30,8 @@ const Container = styled.div`
 const Card = styled.div`
   background-color: #14252f;
   border-radius: 6px;
-  padding: 2rem;
+  padding: 1rem;
+  height: 80%;
 `;
 
 const FormContainer = styled.form`

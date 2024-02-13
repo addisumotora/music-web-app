@@ -109,7 +109,6 @@ const Login = () => {
     <Container>
       {loading}
       <Card>
-        <Header>𝒜𝒹𝒹𝒾𝓈𝒱𝒾𝒷𝑒𝓈</Header>
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
           <FormHeader>Sign In</FormHeader>
           <Label htmlFor="email">Email Address</Label>

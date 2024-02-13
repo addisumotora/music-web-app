@@ -21,7 +21,7 @@ const Container = styled.div`
 const Card = styled.div`
   background-color: #14252f;
   border-radius: 6px;
-  padding: 1rem;
+  padding: 2rem;
 `;
 const Header = styled.h1`
   color: #009688;
@@ -109,7 +109,6 @@ const Register = () => {
   return (
     <Container>
     <Card>
-      <Header>𝒜𝒹𝒹𝒾𝓈𝒱𝒾𝒷𝑒𝓈</Header>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <FormHeader>Sign Up</FormHeader>
         <Label htmlFor="email">Email Address</Label>
