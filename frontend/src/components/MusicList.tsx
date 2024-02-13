@@ -94,6 +94,8 @@ const MusicList = () => {
     [dispatch]
   );
 
+  console.log('REACT_APP_BASE_URL:', process.env.REACT_APP_BASE_URL);
+
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const searchTerm = e.target.value;

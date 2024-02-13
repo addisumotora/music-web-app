@@ -7,7 +7,7 @@ export interface ModalState {
 
 const initState: ModalState = {
   isOpen: false,
-  isSideBaropen: true
+  isSideBaropen: false
 };
 
 const modalSlice = createSlice({
