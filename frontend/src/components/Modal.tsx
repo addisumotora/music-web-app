@@ -194,8 +194,8 @@ const FormModal = () => {
                       src={music?.image}
                       alt="Current Image"
                       style={{
-                        width: "10rem",
-                        height: "100%",
+                        width: "5rem",
+                        height: "50%",
                         marginBottom: "1rem",
                       }}
                     />
