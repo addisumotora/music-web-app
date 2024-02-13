@@ -157,10 +157,20 @@ const MusicCard = ({ musics }: any) => {
               </div>
             </TitleContainer>
             <ActionButtonContainer>
-              <button onClick={() => udpateMusic(music)}>Edit</button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  udpateMusic(music);
+                }}
+              >
+                Edit
+              </button>
               <button
                 style={{ color: "red" }}
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   dispatch(deleteMusicAction(music._id));
                   setSelectedIndex(index);
                 }}

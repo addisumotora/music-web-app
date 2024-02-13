@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { GetMusicType, Music } from "../../types/types";
+import { GetMusicType} from "../../types/types";
 
 interface MusicState {
   musics: GetMusicType[];
