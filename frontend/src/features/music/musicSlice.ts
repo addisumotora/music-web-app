@@ -85,6 +85,19 @@ export const musicSlice = createSlice({
       state.error = action.payload;
     },
 
+    getMusicByIdAction: (state, action) => {
+      state.loading = true;
+    },
+    getMusicByIdSuccessAction: (state, action) => {
+      state.music = action.payload;
+      state.loading = false;
+      state.success = true;
+    },
+    getMusicByIdErrorAction: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
     //delete music
     deleteMusicAction: (state) => {
       state.deleting = true;
@@ -131,4 +144,7 @@ export const {
   searchMusicAction,
   searchMusicErrorAction,
   searchMusicSuccessAction,
+  getMusicByIdAction,
+  getMusicByIdErrorAction,
+  getMusicByIdSuccessAction
 } = musicSlice.actions;

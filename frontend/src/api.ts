@@ -64,5 +64,14 @@ export const searchIMusic = async (searchTerm: string) => {
   }
 };
 
+export const getIMusicById = async(id: string) => {
+  try {
+    const response = await api.get(`api/music/${id}`) 
+    return response.data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 
 

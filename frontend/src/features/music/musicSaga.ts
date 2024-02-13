@@ -1,6 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, delay, put, takeLatest } from "redux-saga/effects";
-import { createIMusic, deleteIMusic, getIMusic, searchIMusic, updateIMusic } from "../../api";
+import { createIMusic, deleteIMusic, getIMusic, getIMusicById, searchIMusic, updateIMusic } from "../../api";
 import { Music } from "../../types/types";
 import {
   createMusicErrorAction,
@@ -8,9 +8,13 @@ import {
   deleteMusicErrorAction,
   deleteMusicSuccessAction,
   getMusicAction,
+  getMusicByIdAction,
+  getMusicByIdErrorAction,
+  getMusicByIdSuccessAction,
   getMusicErrorAction,
   getMusicSuccessAction,
   searchMusicAction,
+  searchMusicErrorAction,
   searchMusicSuccessAction,
   setUpdate,
   updateMusicErrorAction,
@@ -137,7 +141,23 @@ function* searchMusic({
     yield put(searchMusicSuccessAction(data));
   } catch (error: any) {
     yield put(
-      getMusicErrorAction(
+      searchMusicErrorAction(
+        error?.response?.data?.message || "Something went wrong! try again"
+      )
+    );
+  }
+}
+
+function* getMusicById({
+  payload: { id } ,
+}: PayloadAction<{ id: string }>): Generator<any, void, any> {
+  console.log(id,'stat')
+  try {
+    const data = yield call(getIMusicById, id);
+    yield put(getMusicByIdSuccessAction(data));
+  } catch (error: any) {
+    yield put(
+      getMusicByIdErrorAction(
         error?.response?.data?.message || "Something went wrong! try again"
       )
     );
@@ -150,4 +170,5 @@ export function* watchMusicActions() {
   yield takeLatest("music/updateMusicAction", updateMusic);
   yield takeLatest("music/deleteMusicAction", deleteMusic);
   yield takeLatest("music/searchMusicAction", searchMusic);
+  yield takeLatest("music/getMusicByIdAction", getMusicById);
 }

@@ -64,7 +64,7 @@ export const findbyId = async (req: Request, res: Response) => {
   try { 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).json({ message: `no music with id:${id}` });
-    const music = await Music.findOne({ id });
+    const music = await Music.findOne({ _id: id });
     res.status(200).json(music);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
