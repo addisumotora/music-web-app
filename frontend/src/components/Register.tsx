@@ -21,7 +21,7 @@ const Container = styled.div`
 const Card = styled.div`
   background-color: #14252f;
   border-radius: 6px;
-  padding: 2rem;
+  padding: 1rem;
 `;
 const Header = styled.h1`
   color: #009688;
