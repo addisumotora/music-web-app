@@ -1,4 +1,3 @@
-import axios from "axios";
 import { ILoginUser, IRegisterUser, Music } from "./types/types";
 import api from "./httpInterceptor";
 
